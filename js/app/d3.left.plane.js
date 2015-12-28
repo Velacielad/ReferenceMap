@@ -57,13 +57,17 @@ function drawAirplaneChina(projection) {
 * 更新飞机数据
 * @type {number}
 */
+var insertspeed
 function updatePlanesChina(projection) {
 //        $.getJSON( "http://localhost:8080/Plane/planes/3", function(data) {
     d3.json(baseUrl, function (error, plane) {
         if (error)
             return console.error(error);
-        //console.log(plane);
+        // console.log();
 
+        var sped = document.getElementById("speed");
+        sped.innerHTML =
+        "<div style='float:left;'>速度:</div><div style='float:left;margin-left:5px;padding-left:5px;width:"+plane[0].speed/5+"px;color:#fff;background-color:#"+plane[0].speed+"'>"+plane[0].speed+"</div><div>位置:</div><div style='float:left;'>"+plane[0].lat+" , "+plane[0].lon+"</div>";
 
         svg.selectAll("defs").remove();
         var arrowMarker = [];
@@ -315,4 +319,3 @@ function startChinaModel(projection) {
         }
     }, 3000);
 }
-
