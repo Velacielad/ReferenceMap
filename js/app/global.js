@@ -50,15 +50,26 @@ function tooltipHtmlSynchronous(n, d){	/* function to create html content string
         "</table>";
 }
 //  定义鼠标移上函数
-function mouseOverSynchronous(d){
-    d3.select("#tooltip").transition().duration(200).style("opacity", .9);
+function mouseOverSynchronous(dPlane){
+    var planeSelect  = d3.selectAll(".plane_" + dPlane.icao)[0];
+    console.log(planeSelect);
+    planeSelect.forEach(function(d,i){
+        var X = planeSelect[i].getBoundingClientRect().left;
+        var Y = planeSelect[i].getBoundingClientRect().top;
+        //console.log();
+        console.log((i+1) + ":" + X + "  :  " + Y);
+        d3.select("#tooltip"+(i+1)).transition().duration(200).style("opacity", .9);
 
-    d3.select("#tooltip").html(tooltipHtmlSynchronous(d.flight, d))
-        .style("left", (d3.event.pageX) + "px")
-        .style("top", (d3.event.pageY - 28) + "px");
+        d3.select("#tooltip"+(i+1)).html(tooltipHtmlSynchronous(dPlane.flight, dPlane))
+            .style("left", X + "px")
+            //.style("left", (d3.event.pageX) + "px")
+            .style("top", Y + "px");
+        //.style("top", (d3.event.pageY - 28) + "px");
+    });
 }
 //  定义鼠标移出函数
 function mouseOutSynchronous(){
-    d3.select("#tooltip").transition().duration(500).style("opacity", 0).attr("fill","#ffffff");
+    d3.select("#tooltip1").transition().duration(500).style("opacity", 0).attr("fill","#ffffff");
+    d3.select("#tooltip2").transition().duration(500).style("opacity", 0).attr("fill","#ffffff");
 }
 

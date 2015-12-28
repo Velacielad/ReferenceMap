@@ -124,65 +124,6 @@ function updatePlanes(projectionProvince) {
         });
 
 
-        // 自定义 pophover
-        function tooltipHtmlCity(n, d){	/* function to create html content string in tooltip div. */
-            return "<h4>"+n+"</h4><table>"+
-                "<tr><td>机名</td><td>"+(d.flight)+"</td></tr>"+
-                "<tr><td>飞机编号</td><td>  "+(d.icao)+"</td></tr>"+
-                "<tr><td>经度</td><td>  "+(d.lon)+"</td></tr>"+
-                "<tr><td>纬度</td><td>  "+(d.lat)+"</td></tr>"+
-                "<tr><td>海拔</td><td>  "+(d.alt)+"</td></tr>"+
-                "<tr><td>速度</td><td>  "+(d.speed)+"</td></tr>"+
-                "<tr><td>方向</td><td>  "+(d.trueTrack)+"</td></tr>"+
-                "<tr><td>垂直速度</td><td>  "+(d.vrate)+"</td></tr>"+
-                "<tr><td>距离</td><td>  "+(d.dist)+"</td></tr>"+
-                "<tr><td>国家</td><td>  "+(d.country)+"</td></tr>"+
-                "</table>";
-        }
-        //  定义鼠标移上函数
-        function mouseOver2(d){
-            d3.select("#tooltip").transition().duration(200).style("opacity", .9);
-
-            d3.select("#tooltip").html(tooltipHtmlCity(d.flight, d))
-                .style("left", (d3.event.pageX) + "px")
-                .style("top", (d3.event.pageY - 28) + "px");
-
-
-        }
-        //  定义鼠标移出函数
-        function mouseOut2(){
-            d3.select("#tooltip").transition().duration(500).style("opacity", 0).attr("fill","#ffffff");
-        }
-
-
-        // 画轨迹
-        canvas.selectAll("circle")
-            .attr('opacity',1)
-            .attr('r',1);
-        canvas.append("svg:g")
-            .attr("class", "tracks")
-            .selectAll("circle")
-            .data(plane)
-            .enter()
-            .append('circle')
-            .attr('class',function(d,i){
-                return d.icao;
-            })
-            .attr('cx',function(d){
-                return projectionProvince([d.lon,d.lat])[0];
-            })
-            .attr('cy',function(d){
-                return  projectionProvince([d.lon,d.lat])[1];
-            })
-            .attr('r',10)
-            .attr('opacity',0)
-            .attr("fill",function(d){
-                return "#" + d.icao;
-            })
-            //.attr("marker-end","url(#arrow)")
-            .on("mouseover", mouseOver2).on("mouseout", mouseOut2);
-
-
         // 标注飞机位置
         //获取飞机的update部分
         //var updatePlane = canvas
@@ -267,6 +208,9 @@ function updatePlanes(projectionProvince) {
             .data(plane)
             .enter()
             .append('line')
+            .attr('class',function(d){
+                return "plane_" + d.icao;
+            })
             .attr('x1',function(d){
                 return projectionProvince([d.lon,d.lat])[0];
             })
@@ -292,9 +236,37 @@ function updatePlanes(projectionProvince) {
             .attr("marker-end",function(d){
                 //return arrowMarker[d.icao];
                 return "url(#arrowPointRight"+ d.icao+")";
-            });
-            //.on("mouseover", mouseOver2).on("mouseout", mouseOut2);
+            })
+            .on("mouseover", mouseOverSynchronous).on("mouseout", mouseOutSynchronous);
 
+
+
+        // 画轨迹
+        canvas.selectAll("circle")
+            .attr('opacity',1)
+            .attr('r',1);
+        canvas.append("svg:g")
+            .attr("class", "tracks")
+            .selectAll("circle")
+            .data(plane)
+            .enter()
+            .append('circle')
+            .attr('class',function(d,i){
+                return "class_"+ d.icao;
+            })
+            .attr('cx',function(d){
+                return projectionProvince([d.lon,d.lat])[0];
+            })
+            .attr('cy',function(d){
+                return  projectionProvince([d.lon,d.lat])[1];
+            })
+            .attr('r',10)
+            .attr('opacity',0)
+            .attr("fill",function(d){
+                return "#" + d.icao;
+            })
+            //.attr("marker-end","url(#arrow)")
+            .on("mouseover",  mouseOverSynchronous).on("mouseout", mouseOutSynchronous);
 
 
     });

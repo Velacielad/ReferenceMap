@@ -7,7 +7,7 @@
 function drawMap(mapPath, svg, c) {
 	var projection = d3.geo.mercator()
 					.center([107, 38])
-					.scale(width-100)
+					.scale(width-300)
     			.translate([width/1.8, height/2]);
 
 	var path = d3.geo.path().projection(projection);
