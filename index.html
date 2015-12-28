@@ -1,0 +1,348 @@
+<!-- 倒萨倒萨 -->
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Map</title>
+    <link rel="stylesheet" href="css/vendor/bootstrap.min.css" />
+    <!--<link rel="stylesheet" href="mapjs/css/normalize.min.css" />-->
+    <!--<link rel="stylesheet" href="mapjs/css/ion.rangeSlider.css" />-->
+    <!--<link rel="stylesheet" href="mapjs/css/ion.rangeSlider.skinFlat.css" id="styleSrc"/>-->
+    <style>
+
+        /*  文档 */
+        html, body{
+            color:#505050;
+            line-height:1.75em;
+            background:#181818;
+            font-family: "Helvetica", Helvetica, Arial, sans-serif;
+        }
+        #map1 {
+
+            display: block;
+            text-align: center;
+
+            /*height: auto;*/
+            /*width: auto;*/
+
+            /*margin: 3px;*/
+            background-color: #181818;
+            /*background-color: #ffffff;*/
+            -webkit-border-radius: 10px;
+            -moz-border-radius: 10px;
+            border-radius: 10px;
+            /*stroke: #a9a9a9;*/
+            /*stroke-width: 1;*/
+            /*margin: 10px 10px 10px 10px;*/
+            margin-bottom: 20px;
+        }
+
+        #map2 {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: center;
+            /*max-width: 600px;*/
+            /*height: auto;*/
+            width: auto;
+            /*min-width: 600px;*/
+            /*margin: 3px;*/
+            background-color: #181818;
+            /*background-color: #ffffff;*/
+            -webkit-border-radius: 10px;
+            -moz-border-radius: 10px;
+            border-radius: 10px;
+            /*margin: 10px 10px 10px 10px;*/
+            margin-bottom: 20px;
+        }
+
+        .main{
+
+        }
+        .overlay {
+            fill: none;
+            pointer-events: all;
+        }
+
+        #tooltip {
+            position: absolute;
+            text-align: left;
+            padding: 5px;
+            margin: 10px;
+            font: 10px "微软雅黑";
+            background: #fff;
+            border: 1px;
+            border-radius: 1px;
+            pointer-events: none;
+        }
+        #tooltip h4{
+            margin:5px;
+            font-size:15px;
+            font-weight: bold;
+            color:#333;
+        }
+        #tooltip{
+            background:rgba(f,f,f,0.9);
+            border:1px solid #777;
+            border-radius:5px;
+            font-size:10px;
+            width:auto;
+            color:#777;
+            opacity:0;
+        }
+        #tooltip table{
+            table-layout:fixed;
+        }
+        #tooltip tr td{
+            padding:0;
+            margin:0;
+        }
+        #tooltip tr td:nth-child(1){
+            width:70px;
+        }
+        #tooltip tr td:nth-child(2){
+            text-align:left;
+        }
+        #tooltip2 {
+            position: absolute;
+            text-align: left;
+            padding: 5px;
+            margin: 10px;
+            font: 10px "微软雅黑";
+            background: #fff;
+            border: 1px;
+            border-radius: 1px;
+            pointer-events: none;
+        }
+        #tooltip2 h4{
+            margin:5px;
+            font-size:15px;
+            font-weight: bold;
+            color:#333;
+        }
+        #tooltip2{
+            background:rgba(f,f,f,0.9);
+            border:1px solid #777;
+            border-radius:5px;
+            font-size:10px;
+            width:auto;
+            color:#777;
+            opacity:0;
+        }
+        #tooltip2 table{
+            table-layout:fixed;
+        }
+        #tooltip2 tr td{
+            padding:0;
+            margin:0;
+        }
+        #tooltip2 tr td:nth-child(1){
+            width:70px;
+        }
+        #tooltip2 tr td:nth-child(2){
+            text-align:left;
+        }
+        .container-fluid{
+          margin-top: 5px;
+        }
+        .btn-info {
+            color: #fff;
+            background-color: #21211F;
+            border-color: #35352F;
+            font-family: "微软雅黑";
+        }
+        .topbtn{
+          height: 50px;
+          float: left;
+          margin: 10px 10px 0px 10px;
+          padding: 5px;
+          font-size: 18px;
+          font-family: "微软雅黑";
+          text-align: center;
+          cursor: pointer;
+        }
+        .topbtn:hover{
+          border-bottom:solid 5px #61AFEF;
+        }
+    </style>
+</head>
+
+<body>
+
+<!--<div id="tooltip" class="hidden">-->
+    <!--<p><strong>省份：</strong><span id="province">100</span></p>-->
+    <!--<p><strong>年份：</strong><span id="year">100</span></p>-->
+    <!--<p><strong>总和：</strong><span id="sum">100</span></p>-->
+    <!--<p><strong>第一产业：</strong><span id="industry1">100</span></p>-->
+    <!--<p><strong>第二产业：</strong><span id="industry2">100</span></p>-->
+    <!--<p><strong>第三产业：</strong><span id="industry3">100</span></p>-->
+<!--</div>-->
+<div style="background-color:#F5F5F5;height:70px;width:100%;">
+  <div class="topbtn" onclick="isNameShow()" style="margin-top: 20px">显示文字</div>
+  <div class="topbtn" onclick="pause()" style=" margin-top: 20px;">暂停</div>
+  <div class="topbtn" onclick="continueDisplay()" style=" margin-top: 20px;">继续</div>
+  <div class="topbtn" onclick="ShowDetail()" style=" margin-top: 20px;">查看详情</div>
+  <div style="clear:both;">
+
+  </div>
+</div>
+<div class="container-fluid">
+
+    <div class="row  main" style="">
+
+        <div id="left" class="col-sm-12 col-lg-6" >
+            <div id="map1" >
+
+            </div>
+        </div>
+
+        <div  class="col-sm-12 col-lg-6">
+            <div id="map2" >
+
+            </div>
+        </div>
+        <div style="left: 886px; top: 28px; opacity: 0;" id="tooltip">
+            <h4>Maine</h4>
+            <table>
+                <tbody>
+                <tr><td>Low</td><td>56</td></tr>
+                <tr><td>Average</td><td>76</td></tr>
+                <tr><td>High</td><td>95</td></tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="left: 886px; top: 28px; opacity: 0;" id="tooltip2">
+            <h4>Maine</h4>
+            <table>
+                <tbody>
+                <tr><td>Low</td><td>56</td></tr>
+                <tr><td>Average</td><td>76</td></tr>
+                <tr><td>High</td><td>95</td></tr>
+                </tbody>
+            </table>
+        </div><!-- div to hold tooltip. -->
+    </div>
+</div>
+
+
+
+
+
+<script src="js/app/global.js"></script>
+
+<script src="js/vendor/jquery-1.11.0.min.js"></script>
+<script src="js/vendor/d3.js"></script>
+<script src="js/app/drawName.js"></script>
+
+<script src="js/app/d3.right.plane.js"></script>
+<script src="js/app/drawMap.js"></script>
+<script src="js/app/util.js"></script>
+<script src="js/app/timeaxis.js"></script>
+<script src="js/app/pie.js"></script>
+
+
+<script src="js/app/ion.rangeSlider.js"></script>
+<script src="js/app/rangeSlider.js"></script>
+
+<script src="js/app/name.js"></script>
+<script type="text/javascript" src="js/vendor/jquery.min.js"></script>
+<script src="js/app/d3.left.plane.js"></script>
+<script src="js/app/viewdetail.js"></script>
+
+<script>
+//    svg.append("rect").attr("id","name_show_button")
+//            .attr({ x:namelabeldx-5, y:namelabeldy-22,rx:"8", ry:"6", width:"130", height:"28"})
+//            .attr("fill","#EEEEEE")
+//            .on("click",isNameShow);
+//    svg.append("text").attr("id","name_show")
+//            .attr("dx",namelabeldx).attr("dy",namelabeldy).attr("font-anchor","middle")
+//            .text("show or no name ")
+//            .on("click",isNameShow);
+
+
+</script>
+<script>
+    var totalmaxvalue=10000;
+    var totalminvalue=10;
+    var namelabeldy=50;
+    var namelabeldx=30;
+    var provinceDataYear;
+
+    var globalyear = 2004;
+
+
+
+    var timeheight = 80;
+    var width  = document.documentElement.clientWidth/2;
+    var height = 520;
+    var background = "#EBEBEB";
+    var overColor = "#5A5A5A";
+
+    /**
+     *  放大缩小函数
+     */
+    var zoom = d3.behavior.zoom()
+            .scaleExtent([1, 10])
+            .on("zoom", zoomed);
+
+    function zoomed() {
+        d3.select(this).attr("transform",
+                "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+    }
+
+
+    var zoom_right = d3.behavior.zoom()
+            .scaleExtent([1, 10])
+            .on("zoom", zoomed_right);
+
+    function zoomed_right() {
+        d3.select(this).attr("transform",
+                "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+    }
+
+    /**
+     * 拖拽函数
+     * @type {string}
+     */
+    var drag = d3.behavior.drag()
+            .on("drag", dragmove);
+
+    function dragmove(d) {
+        d3.select(this)
+                .attr("cx", d.cx = d3.event.x )
+                .attr("cy", d.cy = d3.event.y );
+    }
+
+
+    var svg = d3.select("#map1").append("svg")
+            .attr("width", width)
+            .attr("height", height + timeheight)
+            .append("g")
+            .call(zoom)
+//            .call(drag)
+            .attr("transform", "translate(0,0)");
+
+    var svgRight = d3.select("#map2").append("svg")
+            .attr("width", width)
+            .attr("height", height + timeheight)
+            .append("g")
+            .call(zoom_right)
+//            .call(drag)
+            .attr("transform", "translate(0,0)");
+
+    var chinaJsonPath = "mapdata/china.json";
+    drawMap(chinaJsonPath, svg);
+
+
+
+    var nodes = [];
+    var provinceNodes = [];
+    var coutiesNodes = [];
+    var provinceId = "";
+    var coutiesId = "";
+    var textColor= "#6B695D";
+
+
+</script>
+
+</body>
+</html>

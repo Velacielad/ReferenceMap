@@ -1,0 +1,266 @@
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Map</title>
+    <link rel="stylesheet" href="../css/vendor/bootstrap.min.css" />
+    <!--<link rel="stylesheet" href="mapjs/css/normalize.min.css" />-->
+    <!--<link rel="stylesheet" href="mapjs/css/ion.rangeSlider.css" />-->
+    <!--<link rel="stylesheet" href="mapjs/css/ion.rangeSlider.skinFlat.css" id="styleSrc"/>-->
+
+
+    <style>
+
+        /*  文档 */
+        html, body{
+            color:#505050;
+            line-height:1.75em;
+            background:#ebebeb;
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        }
+        #map3 {
+
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: center;
+            max-width: 600px;
+            /*height: auto;*/
+            /*width: auto;*/
+            min-width: 600px;
+
+            /*margin: 3px;*/
+            background-color: #FFE4C4;
+            /*background-color: #ffffff;*/
+            -webkit-border-radius: 10px;
+            -moz-border-radius: 10px;
+            border-radius: 10px;
+            /*stroke: #a9a9a9;*/
+            /*stroke-width: 1;*/
+            /*margin: 10px 10px 10px 10px;*/
+            margin-bottom: 20px;
+        }
+
+        #map4 {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: center;
+            max-width: 600px;
+            /*height: auto;*/
+            /*width: auto;*/
+            min-width: 600px;
+            /*margin: 3px;*/
+            background-color: #FFE4C4;
+            /*background-color: #ffffff;*/
+            -webkit-border-radius: 10px;
+            -moz-border-radius: 10px;
+            border-radius: 10px;
+            /*margin: 10px 10px 10px 10px;*/
+            margin-bottom: 20px;
+        }
+
+        .main{
+            margin-top: 130px;
+        }
+        .overlay {
+            fill: none;
+            pointer-events: all;
+        }
+
+        #tooltip {
+            position: absolute;
+            text-align: left;
+            padding: 5px;
+            margin: 10px;
+            font: 10px "微软雅黑";
+            background: #fff;
+            border: 1px;
+            border-radius: 1px;
+            pointer-events: none;
+        }
+        #tooltip h4{
+            margin:5px;
+            font-size:15px;
+            font-weight: bold;
+            color:#333;
+        }
+        #tooltip{
+            background:rgba(f,f,f,0.9);
+            border:1px solid #777;
+            border-radius:5px;
+            font-size:10px;
+            width:auto;
+            color:#777;
+            opacity:0;
+        }
+        #tooltip table{
+            table-layout:fixed;
+        }
+        #tooltip tr td{
+            padding:0;
+            margin:0;
+        }
+        #tooltip tr td:nth-child(1){
+            width:70px;
+        }
+        #tooltip tr td:nth-child(2){
+            text-align:left;
+        }
+    </style>
+</head>
+
+<body>
+
+<!--<div id="tooltip" class="hidden">-->
+<!--<p><strong>省份：</strong><span id="province">100</span></p>-->
+<!--<p><strong>年份：</strong><span id="year">100</span></p>-->
+<!--<p><strong>总和：</strong><span id="sum">100</span></p>-->
+<!--<p><strong>第一产业：</strong><span id="industry1">100</span></p>-->
+<!--<p><strong>第二产业：</strong><span id="industry2">100</span></p>-->
+<!--<p><strong>第三产业：</strong><span id="industry3">100</span></p>-->
+<!--</div>-->
+
+<div class="container-fluid">
+
+    <button class="btn btn-info col-md-offset-1" onclick="isNameShow()" style="margin-top: 20px">显示文字</button>
+    <button class="btn btn-info col-md-offset-2" onclick="pause()" style=" margin-top: 20px;">暂停</button>
+    <button class="btn btn-info" onclick="continueDisplay()" style=" margin-top: 20px;">继续</button>
+
+    <div class="row  main" style="margin-top: 20px">
+
+        <div id="left" class="col-sm-12 col-lg-6" >
+            <div id="map3" >
+
+            </div>
+        </div>
+
+        <div  class="col-sm-12 col-lg-6">
+            <div id="map4" >
+
+            </div>
+        </div>
+        <div style="left: 886px; top: 28px; opacity: 0;" id="tooltip">
+            <h4>Maine</h4>
+            <table>
+                <tbody>
+                <tr><td>Low</td><td>56</td></tr>
+                <tr><td>Average</td><td>76</td></tr>
+                <tr><td>High</td><td>95</td></tr>
+                </tbody>
+            </table>
+        </div><!-- div to hold tooltip. -->
+    </div>
+</div>
+
+
+
+<div id="rangeSlider" style="padding-left:55px; margin-top:-120px; width:250px; font-size:12px;">
+    <input type="text" id="range_1" placeholder="yes"/>
+</div>
+
+
+
+<script src="../js/vendor/jquery-1.11.0.min.js"></script>
+<script src="../js/vendor/d3.js"></script>
+<script src="../js/app/drawName.js"></script>
+
+<script src="../js/app/d3.right.plane.js"></script>
+<script src="../js/app/drawMap.js"></script>
+<script src="../js/app/util.js"></script>
+<script src="../js/app/timeaxis.js"></script>
+<script src="../js/app/pie.js"></script>
+
+
+<script src="../js/app/ion.rangeSlider.js"></script>
+<script src="../js/app/rangeSlider.js"></script>
+
+<script src="../js/app/name.js"></script>
+<script type="text/javascript" src="../js/vendor/jquery.min.js"></script>
+<script src="../js/app/d3.left.plane.js"></script>
+
+<script>
+    $(function(){
+        drawPrivenceMap("../mapdata/geometryProvince/12.json", svgDetail,false);
+        ////给市加上名字
+        drawCityName(1);
+    });
+
+
+
+</script>
+<script>
+    var totalmaxvalue=10000;
+    var totalminvalue=10;
+    var namelabeldy=50;
+    var namelabeldx=30;
+    var provinceDataYear;
+
+    var globalyear = 2004;
+
+
+
+    var timeheight = 80;
+    var width  = 600;
+    var height = 520;
+    var background = "#D1EEEE";
+    var overColor = "#F08080";
+
+    /**
+     *  放大缩小函数
+     */
+    var zoom = d3.behavior.zoom()
+            .scaleExtent([1, 10])
+            .on("zoom", zoomed);
+
+    function zoomed() {
+        d3.select(this).attr("transform",
+                "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+    }
+
+    /**
+     * 拖拽函数
+     * @type {string}
+     */
+    var drag = d3.behavior.drag()
+            .on("drag", dragmove);
+
+    function dragmove(d) {
+        d3.select(this)
+                .attr("cx", d.cx = d3.event.x )
+                .attr("cy", d.cy = d3.event.y );
+    }
+
+
+    var svgDetail = d3.select("#map3").append("svg")
+            .attr("width", width)
+            .attr("height", height + timeheight)
+            .append("g")
+            .call(zoom)
+//            .call(drag)
+            .attr("transform", "translate(0,0)");
+
+    var svgSide = d3.select("#map4").append("svg")
+            .attr("width", width)
+            .attr("height", height + timeheight)
+            .append("g")
+            .call(zoom)
+//            .call(drag)
+            .attr("transform", "translate(0,0)");
+
+
+    var nodes = [];
+    var provinceNodes = [];
+    var coutiesNodes = [];
+    var provinceId = "";
+    var coutiesId = "";
+    var textColor= "#6B695D";
+
+    //var provinceMax=provinceDataYear.max;
+    //	var provinceMin=provinceDataYear.min;
+    //drawRangeFinal(1000, 1);
+
+</script>
+
+</body>
+</html>
