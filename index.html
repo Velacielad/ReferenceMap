@@ -8,7 +8,7 @@
     <meta charset="utf-8">
     <title>Map</title>
     <link rel="stylesheet" href="css/vendor/bootstrap.min.css" />
-    <!--<link rel="stylesheet" href="mapjs/css/normalize.min.css" />-->
+    <link rel="stylesheet" href="css/index.css" />
     <!--<link rel="stylesheet" href="mapjs/css/ion.rangeSlider.css" />-->
     <!--<link rel="stylesheet" href="mapjs/css/ion.rangeSlider.skinFlat.css" id="styleSrc"/>-->
     <style>
@@ -17,17 +17,15 @@
         html, body{
             color:#505050;
             line-height:1.75em;
-            background:#181818;
+            background: #F5F5F5;
             font-family: "Helvetica", Helvetica, Arial, sans-serif;
         }
         #map1 {
 
             display: block;
             text-align: center;
-
             /*height: auto;*/
             /*width: auto;*/
-
             /*margin: 3px;*/
             background-color: #181818;
             /*background-color: #ffffff;*/
@@ -39,7 +37,9 @@
             /*margin: 10px 10px 10px 10px;*/
             margin-bottom: 20px;
         }
-
+        .main {
+            background-color: #181818;
+        }
         #map2 {
             display: block;
             margin-left: auto;
@@ -146,7 +146,8 @@
             text-align:left;
         }
         .container-fluid{
-          margin-top: 5px;
+          margin-top: 75px;
+          overflow: hidden;
         }
         .btn-info {
             color: #fff;
@@ -163,10 +164,14 @@
           font-family: "微软雅黑";
           text-align: center;
           cursor: pointer;
+          color: #777;
         }
         .topbtn:hover{
-          border-bottom:solid 5px #61AFEF;
+          border-bottom:solid 5px #777;
+          color: #333;
         }
+
+
     </style>
 </head>
 
@@ -180,7 +185,7 @@
     <!--<p><strong>第二产业：</strong><span id="industry2">100</span></p>-->
     <!--<p><strong>第三产业：</strong><span id="industry3">100</span></p>-->
 <!--</divs>-->
-<div style="background-color:#F5F5F5;height:70px;width:100%;">
+<div class="topnav">
   <div class="topbtn" onclick="isNameShow()" style="margin-top: 20px">显示文字</div>
   <div class="topbtn" onclick="pause()" style=" margin-top: 20px;">暂停</div>
   <div class="topbtn" onclick="continueDisplay()" style=" margin-top: 20px;">继续</div>
@@ -225,6 +230,19 @@
             </table>
         </div><!-- div to hold tooltip. -->
     </div>
+</div>
+<div class="container">
+  <div class="filter">
+    <div class="filter-title">
+      <h2>CQH8585Y <span>ID:780AD9</span></h2>
+      <div class="filter-detail">
+        <div id="speed"></span>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="footer">
+  ddd
 </div>
 
 
