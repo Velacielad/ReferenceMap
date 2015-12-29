@@ -38,7 +38,7 @@ function initSide(){
                 .attr("y2", yScale(5000 * i));
         }else{
             canvasSide.append("line")
-                .attr("stroke", "white")
+                .attr("stroke", "#eee")
                 .attr("stroke-width", "2px")
                 .attr("x1", 0)
                 .attr("y1", yScale(5000 * i))
