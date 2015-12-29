@@ -309,7 +309,7 @@
      *  放大缩小函数
      */
     var zoom = d3.behavior.zoom()
-            .scaleExtent([1, 10])
+            .scaleExtent([1, 20])
             .on("zoom", zoomed);
 
     function zoomed() {
@@ -319,7 +319,7 @@
 
 
     var zoom_right = d3.behavior.zoom()
-            .scaleExtent([1, 10])
+            .scaleExtent([1, 20])
             .on("zoom", zoomed_right);
 
     function zoomed_right() {

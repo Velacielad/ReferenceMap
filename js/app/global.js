@@ -51,6 +51,13 @@ function tooltipHtmlSynchronous(n, d){	/* function to create html content string
 }
 //  定义鼠标移上函数
 function mouseOverSynchronous(dPlane){
+    // 先暂停模拟的过程
+    pause();
+
+    // 呈现出选中的圆
+    d3.selectAll(".class_" + dPlane.icao).attr('opacity',0.5);
+
+    // 出现数据的详情
     var planeSelect  = d3.selectAll(".plane_" + dPlane.icao)[0];
     console.log(planeSelect);
     planeSelect.forEach(function(d,i){
@@ -68,8 +75,15 @@ function mouseOverSynchronous(dPlane){
     });
 }
 //  定义鼠标移出函数
-function mouseOutSynchronous(){
+function mouseOutSynchronous(dPlane){
+
+    // 恢复模拟过程
+    continueDisplay();
+    // 隐藏选中的圆
+    d3.selectAll(".class_" + dPlane.icao).attr('opacity',0);
+    // 隐藏数据的详情
     d3.select("#tooltip1").transition().duration(500).style("opacity", 0).attr("fill","#ffffff");
     d3.select("#tooltip2").transition().duration(500).style("opacity", 0).attr("fill","#ffffff");
+
 }
 

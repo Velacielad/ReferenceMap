@@ -149,8 +149,8 @@ function updatePlanesChina(projection) {
             .attr('cy',function(d){
                 return  projection([d.lon,d.lat])[1];
             })
-            .attr('r',0)
-            .attr('opacity',1)
+            .attr('r',1)
+            .attr('opacity',0)
             .attr("fill",function(d){
                 return "#" + d.icao;
             })
