@@ -290,5 +290,5 @@ function startChinaModel(projection) {
             updatePlanesChina(projection);
             getNext();
         }
-    }, 3000);
+    }, 1000);
 }

@@ -76,25 +76,29 @@ function mouseOverSynchronous(dPlane){
 }
 //  定义鼠标移出函数
 function mouseOutSynchronous(dPlane){
-
-    if(!MouseClicked) {
         // 恢复模拟过程
         continueDisplay();
-        // 隐藏选中的圆
-        d3.selectAll(".class_" + dPlane.icao).attr('opacity', 0);
         // 隐藏数据的详情
         d3.select("#tooltip1").transition().duration(500).style("opacity", 0).attr("fill", "#ffffff");
         d3.select("#tooltip2").transition().duration(500).style("opacity", 0).attr("fill", "#ffffff");
         d3.select("#tooltip3").transition().duration(500).style("opacity", 0).attr("fill", "#ffffff");
+    if(!MouseClicked) {
+       // 隐藏选中的圆
+        d3.selectAll(".class_" + dPlane.icao).attr('opacity', 0);
     }
 }
 
 var MouseClicked = false;
+var PlaneSelected;
+var planeTemp;
 function mouseClickSynchronous(dPlane){
+
     MouseClicked = MouseClicked != true;
     // 先暂停模拟的过程
     if(MouseClicked){
-        pause();
+        //pause();
+        var detailInfo = document.getElementById("detailInfo").style.display = "block";
+        //detailInfo
 
         // 所有轨迹
         d3.selectAll(".PlaneMark").attr("opacity",0);
@@ -103,8 +107,12 @@ function mouseClickSynchronous(dPlane){
 
         d3.selectAll(".plane_" + dPlane.icao).attr("opacity",1);
         d3.selectAll(".class_" + dPlane.icao).attr("opacity",0.5);
+
+        PlaneSelected = dPlane.icao;
     }else{
         d3.selectAll(".PlaneLine").attr("opacity",1);
+        var detailInfo = document.getElementById("detailInfo").style.display = "none";
+
     }
 
 }

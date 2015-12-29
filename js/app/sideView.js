@@ -340,7 +340,17 @@ function updatePlanesSide(projectionProvince) {
             })
             .on("mouseover", mouseOverSynchronous).on("mouseout", mouseOutSynchronous);
 
+            if(MouseClicked){
+                //canvasSide.selectAll(".PlaneMark").attr("opacity",0);
+                //canvasSide.selectAll(".PlaneLine").attr("opacity",0);
+                // 所有轨迹
+                d3.selectAll(".PlaneMark").attr("opacity",0);
+                // 所有直线隐藏
+                d3.selectAll(".PlaneLine").attr("opacity",0);
 
+                d3.selectAll(".plane_" + PlaneSelected).attr("opacity",1);
+                d3.selectAll(".class_" + PlaneSelected).attr("opacity",0.5);
+            }
 
     });
 }
@@ -358,7 +368,7 @@ function startModelSide(projectionProvince) {
             updatePlanesSide(projectionProvince);
             //getNext();
         }
-    }, 3000);
+    }, 1000);
 }
 
 //function destroy(){

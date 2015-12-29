@@ -56,7 +56,7 @@
 // 初始化飞机模型
 
 
-function showDetailInfo(plane){
+function showDetailInfo(planeTemp){
     var sped = document.getElementById("speed");
     var zuobiao = document.getElementById("zuobiao");
     var fangxiang = document.getElementById("fangxiang");
@@ -66,23 +66,23 @@ function showDetailInfo(plane){
     var v_speed = document.getElementById("v-speed");
 
 
-    flight_number.innerHTML = "航班号: " + plane[0].flight;
-    flight_id.innerHTML = "id: "+plane[0].icao;
-    fangxiang.innerHTML = "方向：" + plane[0].trueTrack + "度";
+    flight_number.innerHTML = "航班号: " + planeTemp.flight;
+    flight_id.innerHTML = "id: "+planeTemp.icao;
+    fangxiang.innerHTML = "方向：" + planeTemp.trueTrack + "度";
     sped.innerHTML =
-        "<div style='margin:5px;padding:5px;width:"+speedScale(plane[0].speed)+"px;color:#fff;background-color:"+compute(colorScale(plane[0].speed))+"'>"+plane[0].speed+"</div>";
+        "<div style='margin:5px;padding:5px;width:"+speedScale(planeTemp.speed)+"px;color:#fff;background-color:"+compute(colorScale(planeTemp.speed))+"'>"+planeTemp.speed+"</div>";
 
     zuobiao.innerHTML =
-        "<div style='margin:5px;padding:5px;color:#777;'>"+"东经： "+plane[0].lon+", 北纬： "+plane[0].lat+"</div>";
+        "<div style='margin:5px;padding:5px;color:#777;'>"+"东经： "+planeTemp.lon+", 北纬： "+planeTemp.lat+"</div>";
 
     flight_height.innerHTML =
-        "<div style='margin:5px;padding:5px;width:"+heightScale(plane[0].alt)+"px;color:#333;background-color:"+compute2(colorScale2(plane[0].alt))+"'>"+plane[0].alt+"</div>";
-    if(plane[0].vrate > 0){
+        "<div style='margin:5px;padding:5px;width:"+heightScale(planeTemp.alt)+"px;color:#333;background-color:"+compute2(colorScale2(planeTemp.alt))+"'>"+planeTemp.alt+"</div>";
+    if(planeTemp.vrate > 0){
         v_speed.innerHTML =
-            "<div style='margin:5px;padding:5px;width:"+vrateScale(plane[0].vrate)+"px;color:#333;background-color:"+compute3(colorScale3(plane[0].vrate))+"'> +"+plane[0].vrate+"</div>";
+            "<div style='margin:5px;padding:5px;width:"+vrateScale(planeTemp.vrate)+"px;color:#333;background-color:"+compute3(colorScale3(planeTemp.vrate))+"'> +"+planeTemp.vrate+"</div>";
     }
     else {
-        var temp = -plane[0].vrate;
+        var temp = -planeTemp.vrate;
         v_speed.innerHTML =
             "<div style='margin:5px;padding:5px;width:"+vrateScale(temp)+"px;color:#333;background-color:"+compute3(colorScale3(temp))+"'> -"+temp+"</div>";
     }
@@ -101,14 +101,28 @@ function updatePlanes(projectionProvince,type) {
             return console.error(error);
 
 
-         if(type == 1) {
-             // 显示飞机详细信息
-             showDetailInfo(plane);
-         }
+        if(type == 1) {
+            if(MouseClicked){
+                var planeExist = false;
 
+                plane.forEach(function(d){
+                    // 如果是当前选中的飞机
+                    if(d.icao == PlaneSelected){
+                        // 显示飞机详细信息
+                        showDetailInfo(d);
+                        planeExist = true;
+                        planeTemp = d;
+                    }
+                });
+                if(!planeExist){
+                    alert("目标飞机已离开观测范围");
+                    mouseClickSynchronous(planeTemp);
+                }
+            }
+        }
 
+        // 清除旧的标志
         canvas.selectAll("defs").remove();
-
         var arrowMarker = [];
         var arrowMarkerPoint = [];
         plane.forEach(function (d) {
@@ -281,8 +295,6 @@ function updatePlanes(projectionProvince,type) {
             .on("mouseout", mouseOutSynchronous)
             .on("click",mouseClickSynchronous);
 
-
-
         // 画轨迹
         canvas.selectAll("circle")
             .attr('opacity',1)
@@ -308,8 +320,20 @@ function updatePlanes(projectionProvince,type) {
                 return "#" + d.icao;
             })
             //.attr("marker-end","url(#arrow)")
-            .on("mouseover",  mouseOverSynchronous).on("mouseout", mouseOutSynchronous);
+            .on("mouseover",  mouseOverSynchronous).on("mouseout", mouseOutSynchronous)
+            .on("click",mouseClickSynchronous);
 
+            if(MouseClicked){
+                //canvasSide.selectAll(".PlaneMark").attr("opacity",0);
+                //canvasSide.selectAll(".PlaneLine").attr("opacity",0);
+                // 所有轨迹
+                d3.selectAll(".PlaneMark").attr("opacity",0);
+                // 所有直线隐藏
+                d3.selectAll(".PlaneLine").attr("opacity",0);
+
+                d3.selectAll(".plane_" + PlaneSelected).attr("opacity",1);
+                d3.selectAll(".class_" + PlaneSelected).attr("opacity",0.5);
+            }
 
     });
 }
@@ -332,7 +356,7 @@ function startModel(projectionProvince,type) {
             updatePlanes(projectionProvince,type);
             //getNext();
         }
-    }, 3000);
+    }, 1000);
 }
 
 function destroy(){
