@@ -10,19 +10,29 @@
       var heightScale = d3.scale.linear()
           .domain([0,41125])
           .range([0,150]);
+      var vrateScaleLeft = d3.scale.linear()
+          .domain([0,5120])  // 3264 所获取数据中最大的一个
+          .range([0,60]);
       //color
       var c_start = d3.rgb(253,237,134);
       var c_end = d3.rgb(227,91,44);
       var c_start2 = d3.rgb(220,236,201);
       var c_end2 = d3.rgb(53,119,174);
+      var c_start3 = d3.rgb(249,205,172);
+      var c_end3 = d3.rgb(151,52,144);
       var compute = d3.interpolate(c_start,c_end);
       var compute2 = d3.interpolate(c_start2,c_end2);
+      var compute3 = d3.interpolate(c_start3,c_end3);
       var colorScale = d3.scale.linear()
       				.domain([0,560])
       				.range([0,1]);
       var colorScale2 = d3.scale.linear()
               .domain([0,41125])
       				.range([0,1]);
+      var colorScale3 = d3.scale.linear()
+              .domain([0,5120])
+      				.range([0,1]);
+
 
 
 
@@ -100,16 +110,32 @@ function updatePlanes(projectionProvince) {
         var flight_number = document.getElementById("flight");
         var flight_id = document.getElementById("id");
         var flight_height = document.getElementById("flight-height");
+        var v_speed = document.getElementById("v-speed");
+
+
         flight_number.innerHTML = "航班号: " + plane[0].flight;
-        flight_id.innerHTML = "id: "+plane[0].id;
+        flight_id.innerHTML = "id: "+plane[0].icao;
         fangxiang.innerHTML = "方向：" + plane[0].trueTrack + "度";
         sped.innerHTML =
         "<div style='margin:5px;padding:5px;width:"+speedScale(plane[0].speed)+"px;color:#fff;background-color:"+compute(colorScale(plane[0].speed))+"'>"+plane[0].speed+"</div>";
+
         zuobiao.innerHTML =
         "<div style='margin:5px;padding:5px;color:#777;'>"+"东经： "+plane[0].lon+", 北纬： "+plane[0].lat+"</div>";
+
         flight_height.innerHTML =
         "<div style='margin:5px;padding:5px;width:"+heightScale(plane[0].alt)+"px;color:#333;background-color:"+compute2(colorScale2(plane[0].alt))+"'>"+plane[0].alt+"</div>";
+        if(plane[0].vrate > 0){
+          v_speed.innerHTML =
+          "<div style='margin:5px;padding:5px;width:"+vrateScaleLeft(plane[0].vrate)+"px;color:#333;background-color:"+compute3(colorScale3(plane[0].vrate))+"'> +"+plane[0].vrate+"</div>";
+        }
+        else {
+          var temp = -plane[0].vrate;
+          v_speed.innerHTML =
+          "<div style='margin:5px;padding:5px;width:"+vrateScaleLeft(temp)+"px;color:#333;background-color:"+compute3(colorScale3(temp))+"'> -"+temp+"</div>";
+        }
+
         canvas.selectAll("defs").remove();
+
         var arrowMarker = [];
         var arrowMarkerPoint = [];
         plane.forEach(function (d) {
