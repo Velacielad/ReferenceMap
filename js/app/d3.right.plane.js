@@ -294,4 +294,7 @@ function startModel(projectionProvince) {
       
 function destroy(){
     svgRight.selectAll(".airplaneInTianjin").remove();
+    svgRight.selectAll("line").remove();
+    svgRight.selectAll("circle").remove();
+    svgRight.selectAll("image").remove();
 }

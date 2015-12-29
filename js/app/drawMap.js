@@ -81,9 +81,13 @@ function clickChina(d, i, path) {
     d3.selectAll(".pathCouty").remove();
     if(d.properties.id != 50 && d.properties.id !=46 && d.properties.id !=71&&d.properties.id !=11&&d.properties.id !=12&&d.properties.id !=81&&d.properties.id !=82&&d.properties.id !=31){
         //console.log("有二级点击事件的是： "+ d.properties.id);
-        drawPrivenceMap( path, svgRight,true,0);
+        onlyDrawPrivenceMap( path, svgRight,true);
     }else{
-        drawPrivenceMap( path, svgRight,false,0);
+        if(d.properties.id == 12) {
+            drawPrivenceMap(path, svgRight, false, 0);
+        }else{
+            onlyDrawPrivenceMap(path,svgRight,false);
+        }
     }
 
 }
@@ -197,6 +201,80 @@ function drawPrivenceMap( mapPath, svg,canCountriesClick,type) {
 
 }//end drawMap
 
+
+/**
+ * 点击省级地区事件，包括四个直辖市（但要考虑排除直辖市的二级点击）
+ * @param d
+ * @param mapPath
+ * @param svg
+ */
+function onlyDrawPrivenceMap( mapPath, svg,canCountriesClick) {
+    destroy();
+    d3.json(mapPath, function(error, root) {
+
+        if (error)
+            console.log(error);
+
+        //console.log(root.features);
+
+        var projectionProvince = d3.geo.mercator()
+            .center(root.cp)
+            .scale(root.size*2.5)
+            //.translate([width/4*3, height/2]);
+            .translate([width/1.9, height/2]);
+
+        var path = d3.geo.path().projection(projectionProvince);
+
+        //var color = d3.scale.category20();
+
+        svg.selectAll(".pathProvince")
+            .data( root.features )
+            .enter()
+            .append("path")
+            .attr("class", "pathProvince")
+            .attr("stroke","#6B695D")
+            .attr("stroke-width",0.3)
+            .attr("fill", function(d,i){
+                return background;
+            })
+            .attr("d", path )
+            .on("mouseover",function(d,i){
+                d3.select(this)
+                    .attr("fill",overColor);
+
+            })
+            .on("mouseout",function(d,i){
+                d3.select(this)
+                    .attr("fill",background);
+            }).on("click",function(d,i){
+                if(canCountriesClick){
+                    clickProvince(d, i);
+                }
+
+            });
+
+        provinceNodes = [];
+        //获取中心点坐标
+        root.features.forEach(function(d, i) {
+            //console.log(d);
+            var centroid = path.centroid(d);
+            centroid.x = centroid[0];
+            centroid.y = centroid[1];
+            centroid.id = d.properties.id;
+            centroid.name = d.properties.name;
+            centroid.feature = d;
+            //console.log("x:" + centroid.x);
+            provinceNodes.push(centroid);
+        });
+
+
+
+        //给市加上名字
+        drawCityName(1);
+
+    });//end json
+
+}//end drawMap
 
 /**
  * 绘制市级地图

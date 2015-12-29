@@ -11,6 +11,10 @@ var yScale = d3.scale.linear()
     .domain([0,41200])  // 41125 所获取数据中最大的一个
     .range([maxHeight,0]);
 
+var vrateScale = d3.scale.linear()
+    .domain([0,5120])  // 3264 所获取数据中最大的一个
+    .range([0,60]);
+
 function initSide(){
     canvasSide = svgSide.append("svg:g")
         .attr("class", "airplaneInTianjinSide");
@@ -37,13 +41,13 @@ function initSide(){
         .call(yAxis);
 
     //绘制坐标轴的直线
-    //canvasSide.append("line")
-    //    .attr("stroke","gray")
-    //    .attr("stroke-width","2px")
-    //    .attr("x1",0)
-    //    .attr("y1",maxHeight-20)
-    //    .attr("x2",width)
-    //    .attr("y2",maxHeight-20);
+    canvasSide.append("line")
+        .attr("stroke","gray")
+        .attr("stroke-width","2px")
+        .attr("x1",0)
+        .attr("y1",yScale(5000))
+        .attr("x2",width)
+        .attr("y2",yScale(5000));
 }
 
 
@@ -80,17 +84,21 @@ function updatePlanesSide(projectionProvince) {
                 .attr("refY","8")
                 //.attr("orient","auto");
                 .attr("orient",function(){
-                    //if()
-                    var dir = d.trueTrack - 90;
-                    //console.log("方向是 "+ d.trueTrack + " ：" + dir);
-                    return dir;
+                    if(d.trueTrack >=0 && d.trueTrack <=180 ){
+                        return 0;
+                    }else{
+                        return 180;
+                    }
+                    //var dir = d.trueTrack - 90;
+                    ////console.log("方向是 "+ d.trueTrack + " ：" + dir);
+                    //return dir;
                 });
 
             var arrow_path = "M11,8 L10,8.8 L9,9 L7,9 L3,16 L2,16 L4,9 L2,8.8 L1,10 L0,10 L1,8 L0,6 L1,6 L2,7.2 L4,7 L2,0 L3,0 L7,7 L9,7 L10,7.2 L11,8";
 
             arrowMarker[d.icao].append("path")
                 .attr("d",arrow_path)
-                .attr("fill","#000");
+                .attr("fill","#"+ d.icao);
 
             // 箭头模型
             arrowMarkerPoint[d.icao] = defs.append("marker")
@@ -102,10 +110,19 @@ function updatePlanesSide(projectionProvince) {
                 .attr("refX","6")
                 .attr("refY","6")
                 .attr("orient",function(){
-                    //if()
-                    var dir = d.trueTrack - 90;
-                    //console.log("方向是 "+ d.trueTrack + " ：" + dir);
-                    return dir;
+                    if(d.vrate >0){
+                        // 向上
+                        return 270;
+                    }else if(d.vrate < 0 ){
+                        // 向下
+                        return 90;
+                    }else{
+                        if(d.trueTrack >=0 && d.trueTrack <=180 ){
+                            return 0;
+                        }else{
+                            return 180;
+                        }
+                    }
                 });
 
             var arrow_path_point = "M2,2 L10,6 L2,10 L6,6 L2,2";
@@ -131,7 +148,7 @@ function updatePlanesSide(projectionProvince) {
             .enter()
             .append('circle')
             .attr('class',function(d){
-                return "plane_" + d.icao;
+                return "class_" + d.icao;
             })
             .attr('cx',function(d){
                 return projectionProvince([d.lon,d.lat])[0];
@@ -140,8 +157,8 @@ function updatePlanesSide(projectionProvince) {
                 return yScale(d.alt);
                 //return  height - 50;
             })
-            .attr('r',5)
-            .attr('opacity',1)
+            .attr('r',10)
+            .attr('opacity',0)
             .attr("fill",function(d){
                 return "#" + d.icao;
             })
@@ -228,40 +245,44 @@ function updatePlanesSide(projectionProvince) {
 
 
 
-        //canvasSide.selectAll("line").remove();
-        //canvasSide.append("svg:g")
-        //    .attr("class", "planes")
-        //    .selectAll("line")
-        //    .data(plane)
-        //    .enter()
-        //    .append('line')
-        //    .attr('x1',function(d){
-        //        //return projectionProvince([d.lon,d.lat])[0];
-        //    })
-        //    .attr('y1',function(d){
-        //        return  projectionProvince([d.lon,d.lat])[1];
-        //    })
-        //    .attr('x2',function(d){
-        //        return projectionProvince([d.lon,d.lat])[0] + d.speed /10 *  Math.sin(d.trueTrack*Math.PI/180);
-        //    })
-        //    .attr('y2',function(d){
-        //        return  projectionProvince([d.lon,d.lat])[1]- d.speed / 10 * Math.cos(d.trueTrack*Math.PI/180);
-        //    })
-        //    .attr("stroke","red")
-        //    .attr("stroke-width",1.5)
-        //    .attr("fill",function(d){
-        //        return "#000000";
-        //    })
-        //    //.attr("marker-end","url(arrow"+ d.icao+")")
-        //    .attr("marker-start",function(d){
-        //        //return arrowMarker[d.icao];
-        //        return "url(#arrowSide"+ d.icao+")";
-        //    })
-        //    .attr("marker-end",function(d){
-        //        //return arrowMarker[d.icao];
-        //        return "url(#arrowPointSide"+ d.icao+")";
-        //    })
-        //    .on("mouseover", mouseOver2).on("mouseout", mouseOut2);
+        canvasSide.selectAll("line").remove();
+        canvasSide.append("svg:g")
+            .attr("class", "planes")
+            .selectAll("line")
+            .data(plane)
+            .enter()
+            .append('line')
+            .attr('class',function(d){
+                return "plane_" + d.icao;
+            })
+            .attr('x1',function(d){
+                return projectionProvince([d.lon,d.lat])[0];
+            })
+            .attr('y1',function(d){
+                return yScale(d.alt);
+            })
+            .attr('x2',function(d){
+                return projectionProvince([d.lon,d.lat])[0];
+            })
+            .attr('y2',function(d){
+                console.log(d.icao +":"+ vrateScale(d.vrate));
+                return  yScale(d.alt) - vrateScale(d.vrate);
+            })
+            .attr("stroke","red")
+            .attr("stroke-width",1.5)
+            .attr("fill",function(d){
+                return "#"+ d.icao;
+            })
+            //.attr("marker-end","url(arrow"+ d.icao+")")
+            .attr("marker-start",function(d){
+                //return arrowMarker[d.icao];
+                return "url(#arrowSide"+ d.icao+")";
+            })
+            .attr("marker-end",function(d){
+                //return arrowMarker[d.icao];
+                return "url(#arrowPointSide"+ d.icao+")";
+            })
+            .on("mouseover", mouseOverSynchronous).on("mouseout", mouseOutSynchronous);
 
 
 
@@ -282,6 +303,6 @@ function startModelSide(projectionProvince) {
     }, 3000);
 }
 
-function destroy(){
-    svgSide.selectAll(".airplaneInTianjin").remove();
-}
+//function destroy(){
+//    svgSide.selectAll(".airplaneInTianjin").remove();
+//}
