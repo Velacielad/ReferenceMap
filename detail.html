@@ -68,7 +68,7 @@
             pointer-events: all;
         }
 
-        #tooltip {
+        #tooltip1 {
             position: absolute;
             text-align: center;
             padding: 20px;
@@ -79,11 +79,11 @@
             border-radius: 2px;
             pointer-events: none;
         }
-        #tooltip h4{
+        #tooltip1 h4{
             margin:0;
             font-size:14px;
         }
-        #tooltip{
+        #tooltip1{
             background:rgba(0,0,0,0.9);
             border:1px solid grey;
             border-radius:5px;
@@ -93,19 +93,60 @@
             color:white;
             opacity:0;
         }
-        #tooltip table{
+        #tooltip1 table{
             table-layout:fixed;
         }
-        #tooltip tr td{
+        #tooltip1 tr td{
             padding:0;
             margin:0;
         }
-        #tooltip tr td:nth-child(1){
+        #tooltip1 tr td:nth-child(1){
             width:50px;
         }
-        #tooltip tr td:nth-child(2){
+        #tooltip1 tr td:nth-child(2){
             text-align:center;
         }
+
+
+        #tooltip2 {
+            position: absolute;
+            text-align: center;
+            padding: 20px;
+            margin: 10px;
+            font: 12px sans-serif;
+            background: lightsteelblue;
+            border: 1px;
+            border-radius: 2px;
+            pointer-events: none;
+        }
+        #tooltip2 h4{
+            margin:0;
+            font-size:14px;
+        }
+        #tooltip2{
+            background:rgba(0,0,0,0.9);
+            border:1px solid grey;
+            border-radius:5px;
+            font-size:12px;
+            width:auto;
+            padding:4px;
+            color:white;
+            opacity:0;
+        }
+        #tooltip2 table{
+            table-layout:fixed;
+        }
+        #tooltip2 tr td{
+            padding:0;
+            margin:0;
+        }
+        #tooltip2 tr td:nth-child(1){
+            width:50px;
+        }
+        #tooltip2 tr td:nth-child(2){
+            text-align:center;
+        }
+
 
         .axis path,
         .axis line{
@@ -123,7 +164,7 @@
 
 <body>
 
-<!--<div id="tooltip" class="hidden">-->
+<!--<div id="tooltip1" class="hidden">-->
 <!--<p><strong>省份：</strong><span id="province">100</span></p>-->
 <!--<p><strong>年份：</strong><span id="year">100</span></p>-->
 <!--<p><strong>总和：</strong><span id="sum">100</span></p>-->
@@ -151,7 +192,17 @@
 
             </div>
         </div>
-        <div style="left: 886px; top: 28px; opacity: 0;" id="tooltip">
+        <div style="left: 886px; top: 28px; opacity: 0;" id="tooltip1">
+        <h4>Maine</h4>
+        <table>
+            <tbody>
+            <tr><td>Low</td><td>56</td></tr>
+            <tr><td>Average</td><td>76</td></tr>
+            <tr><td>High</td><td>95</td></tr>
+            </tbody>
+        </table>
+    </div><!-- div to hold tooltip1. -->
+    <div style="left: 886px; top: 28px; opacity: 0;" id="tooltip2">
             <h4>Maine</h4>
             <table>
                 <tbody>
@@ -160,7 +211,7 @@
                 <tr><td>High</td><td>95</td></tr>
                 </tbody>
             </table>
-        </div><!-- div to hold tooltip. -->
+        </div><!-- div to hold tooltip2. -->
     </div>
 </div>
 

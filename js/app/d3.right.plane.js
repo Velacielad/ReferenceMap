@@ -19,15 +19,15 @@
 
               //  定义鼠标移上函数
               function mouseOver3(d){
-                  d3.select("#tooltip").transition().duration(200).style("opacity", .9);
+                  d3.select("#tooltip1").transition().duration(200).style("opacity", .9);
 
-                  d3.select("#tooltip").html(tooltipHtmlAirport(d))
+                  d3.select("#tooltip1").html(tooltipHtmlAirport(d))
                       .style("left", (d3.event.pageX) + "px")
                       .style("top", (d3.event.pageY - 28) + "px");
               }
               //  定义鼠标移出函数
               function mouseOut3(){
-                  d3.select("#tooltip").transition().duration(500).style("opacity", 0).attr("fill","#ffffff");
+                  d3.select("#tooltip1").transition().duration(500).style("opacity", 0).attr("fill","#ffffff");
               }
               canvas.append("svg:g")
                   .attr("class", "airports")

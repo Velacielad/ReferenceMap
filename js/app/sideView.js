@@ -33,7 +33,7 @@ function initSide(){
     //添加y轴
     canvasSide.append("g")
         .attr("class","axis")
-        .attr("transform","translate(" + 0 + "," + 0 + ")")
+        .attr("transform","translate(" + 0.2 + "," + 0.2 + ")")
         .call(yAxis);
 
     //绘制坐标轴的直线
@@ -130,8 +130,8 @@ function updatePlanesSide(projectionProvince) {
             .data(plane)
             .enter()
             .append('circle')
-            .attr('class',function(d,i){
-                return d.icao;
+            .attr('class',function(d){
+                return "plane_" + d.icao;
             })
             .attr('cx',function(d){
                 return projectionProvince([d.lon,d.lat])[0];
