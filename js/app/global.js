@@ -76,20 +76,72 @@ function mouseOverSynchronous(dPlane){
 }
 //  定义鼠标移出函数
 function mouseOutSynchronous(dPlane){
-    // 恢复模拟过程
-    continueDisplay();
-    // 隐藏选中的圆
-    d3.selectAll(".class_" + dPlane.icao).attr('opacity',0);
-    // 隐藏数据的详情
-    d3.select("#tooltip1").transition().duration(500).style("opacity", 0).attr("fill","#ffffff");
-    d3.select("#tooltip2").transition().duration(500).style("opacity", 0).attr("fill","#ffffff");
-    d3.select("#tooltip3").transition().duration(500).style("opacity", 0).attr("fill","#ffffff");
 
+    if(!MouseClicked) {
+        // 恢复模拟过程
+        continueDisplay();
+        // 隐藏选中的圆
+        d3.selectAll(".class_" + dPlane.icao).attr('opacity', 0);
+        // 隐藏数据的详情
+        d3.select("#tooltip1").transition().duration(500).style("opacity", 0).attr("fill", "#ffffff");
+        d3.select("#tooltip2").transition().duration(500).style("opacity", 0).attr("fill", "#ffffff");
+        d3.select("#tooltip3").transition().duration(500).style("opacity", 0).attr("fill", "#ffffff");
+    }
 }
 
-
+var MouseClicked = false;
 function mouseClickSynchronous(dPlane){
+    MouseClicked = MouseClicked != true;
+    // 先暂停模拟的过程
+    if(MouseClicked){
+        pause();
 
+        // 所有轨迹
+        d3.selectAll(".PlaneMark").attr("opacity",0);
+        // 所有直线隐藏
+        d3.selectAll(".PlaneLine").attr("opacity",0);
+
+        d3.selectAll(".plane_" + dPlane.icao).attr("opacity",1);
+        d3.selectAll(".class_" + dPlane.icao).attr("opacity",0.5);
+    }else{
+        d3.selectAll(".PlaneLine").attr("opacity",1);
+    }
 
 }
 
+
+
+
+/**
+ * global,全局可能用到的 比例尺
+ */
+
+var speedScale = d3.scale.linear()
+    .domain([0,560])
+    .range([0,150]);
+//height
+var heightScale = d3.scale.linear()
+    .domain([0,41125])
+    .range([0,150]);
+var vrateScale = d3.scale.linear()
+    .domain([0,5120])  // 3264 所获取数据中最大的一个
+    .range([0,60]);
+//color
+var c_start = d3.rgb(253,237,134);
+var c_end = d3.rgb(227,91,44);
+var c_start2 = d3.rgb(220,236,201);
+var c_end2 = d3.rgb(53,119,174);
+var c_start3 = d3.rgb(249,205,172);
+var c_end3 = d3.rgb(151,52,144);
+var compute = d3.interpolate(c_start,c_end);
+var compute2 = d3.interpolate(c_start2,c_end2);
+var compute3 = d3.interpolate(c_start3,c_end3);
+var colorScale = d3.scale.linear()
+    .domain([0,560])
+    .range([0,1]);
+var colorScale2 = d3.scale.linear()
+    .domain([0,41125])
+    .range([0,1]);
+var colorScale3 = d3.scale.linear()
+    .domain([0,5120])
+    .range([0,1]);

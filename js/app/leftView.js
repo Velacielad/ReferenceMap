@@ -11,9 +11,9 @@ var yScaleLeft = d3.scale.linear()
     .domain([0,41200])  // 41125 所获取数据中最大的一个
     .range([maxHeight,20]);
 
-var vrateScaleLeft = d3.scale.linear()
-    .domain([0,5120])  // 3264 所获取数据中最大的一个
-    .range([0,60]);
+//var vrateScaleLeft = d3.scale.linear()
+//    .domain([0,5120])  // 3264 所获取数据中最大的一个
+//    .range([0,60]);
 
 function initLeft(){
     canvasLeft = svgLeft.append("svg:g")
@@ -200,7 +200,7 @@ function updatePlanesLeft(projectionProvince) {
             .enter()
             .append('circle')
             .attr('class',function(d){
-                return "class_" + d.icao;
+                return "class_" + d.icao + " PlaneMark";
             })
             .attr('cx',function(d){
                 return projectionProvince([d.lon,d.lat])[1];
@@ -215,7 +215,9 @@ function updatePlanesLeft(projectionProvince) {
                 return "#" + d.icao;
             })
             //.attr("marker-end","url(#arrow)")
-            .on("mouseover", mouseOverSynchronous).on("mouseout", mouseOutSynchronous);
+            .on("mouseover", mouseOverSynchronous)
+            .on("mouseout", mouseOutSynchronous)
+            .on("click",mouseClickSynchronous);
 
 
 
@@ -317,8 +319,8 @@ function updatePlanesLeft(projectionProvince) {
                 return projectionProvince([d.lon,d.lat])[1];
             })
             .attr('y2',function(d){
-                console.log(d.icao +":"+ vrateScaleLeft(d.vrate));
-                return  yScaleLeft(d.alt) - vrateScaleLeft(d.vrate);
+                console.log(d.icao +":"+ vrateScale(d.vrate));
+                return  yScaleLeft(d.alt) - vrateScale(d.vrate);
             })
             .attr("stroke","red")
             .attr("stroke-width",1.5)
@@ -350,6 +352,7 @@ function startModelLeft(projectionProvince) {
     //getNext();
     setInterval(function() {
         if(!isPause) {
+            console.log("点了暂停以后: " + isPause);
             updatePlanesLeft(projectionProvince);
             //getNext();
         }

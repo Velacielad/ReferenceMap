@@ -185,8 +185,8 @@ function drawPrivenceMap( mapPath, svg,canCountriesClick,type) {
 
         //给市加上名字
         drawCityName(type);
-        if(!canCountriesClick){
-            startModel(projectionProvince);
+        if(!canCountriesClick){   // type == 0 在全国地图上，type == 1 在 地图详情上
+            startModel(projectionProvince,type);
             if(type==1){
                 startModelSide(projectionProvince);
                 startModelLeft(projectionProvince);
@@ -194,7 +194,6 @@ function drawPrivenceMap( mapPath, svg,canCountriesClick,type) {
         }else{
             destroy();
         }
-
 
 	});//end json
 

@@ -203,7 +203,7 @@ function updatePlanesSide(projectionProvince) {
             .enter()
             .append('circle')
             .attr('class',function(d){
-                return "class_" + d.icao;
+                return "class_" + d.icao + " PlaneMark";
             })
             .attr('cx',function(d){
                 return projectionProvince([d.lon,d.lat])[0];
@@ -218,8 +218,9 @@ function updatePlanesSide(projectionProvince) {
                 return "#" + d.icao;
             })
             //.attr("marker-end","url(#arrow)")
-            .on("mouseover", mouseOverSynchronous).on("mouseout", mouseOutSynchronous);
-
+            .on("mouseover", mouseOverSynchronous)
+            .on("mouseout", mouseOutSynchronous)
+            .on("click",mouseClickSynchronous);
 
 
 
@@ -308,7 +309,7 @@ function updatePlanesSide(projectionProvince) {
             .enter()
             .append('line')
             .attr('class',function(d){
-                return "plane_" + d.icao + "  PlaneLine PlaneMark";
+                return "plane_" + d.icao + "  PlaneLine";
             })
             .attr('x1',function(d){
                 return projectionProvince([d.lon,d.lat])[0];
@@ -353,6 +354,7 @@ function startModelSide(projectionProvince) {
     //getNext();
     setInterval(function() {
         if(!isPause) {
+            console.log("点了暂停以后: " + isPause);
             updatePlanesSide(projectionProvince);
             //getNext();
         }
