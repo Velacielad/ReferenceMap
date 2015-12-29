@@ -266,6 +266,7 @@
       <div class="cancelButton topbtn" id = "cancelButton" onclick="" style=" margin-top: 20px;">取消筛选</div>
       <div style="padding-top:5px;">
         <select id="countriesSelected"  required>
+            <option value="">请选择</option>
             <option value="Chin">Chin</option>
             <option value="SKor">SKor</option>
             <option value="Taiw">Taiw</option>
@@ -288,10 +289,13 @@
             <option value="Mong">Mong</option>
         </select>
         <select id = "directionSelected">
+            <option value="">请选择</option>
             <option value="0">东西向</option>
             <option value="1">南北向</option>
         </select>
         <input id="alt_min" placeholder="最低高度" style="color:#aaa"> < 高度 < <input id="alt_max" placeholder="最高高度" style="color:#aaa">
+
+        <div id = "recordTime" ></div>
         <div style="margin-top:5px;">
           <input id="dis_min" placeholder="最近距离" style="color:#aaa"> < 距离 < <input id="dis_max" placeholder="最远距离" style="color:#aaa">
         </div>
@@ -550,6 +554,7 @@
             condition.dis_min = dis_min;
             condition.dis_max = dis_max;
 
+            doFilter = true;
 //            $.ajax({
 //                url:"",
 //                dataType:"html",
@@ -570,15 +575,27 @@
         });
 
         $("#cancelButton").click(function(){
-            $.ajax({
-                url:"",
-                dataType:"html",
-                success: function (strValue) {
-                    if(strValue == "false"){
-                        alert("请求出错");
-                    }
-                }
-            })
+            doFilter = false;
+
+            $("#countriesSelected").val("");
+            // 获取方向
+            $("#directionSelected").val("");
+            // 获取高度范围
+            $("#alt_min").val("");
+            $("#alt_max").val("");
+
+            // 获取距离范围
+             $("#dis_min").val("");
+             $("#dis_max").val("");
+//            $.ajax({
+//                url:"",
+//                dataType:"html",
+//                success: function (strValue) {
+//                    if(strValue == "false"){
+//                        alert("请求出错");
+//                    }
+//                }
+//            })
         })
     })
 

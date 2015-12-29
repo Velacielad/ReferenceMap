@@ -94,7 +94,7 @@ function drawAirplaneSide(projectionProvince) {
             .enter()
             .append('image')
             .attr("x", function (d) {
-                console.log("airport:" + d);
+                //console.log("airport:" + d);
                 return projectionProvince([d.lon, d.lat])[0]-6;
             })
             .attr("y", function (d) {
@@ -116,11 +116,18 @@ function drawAirplaneSide(projectionProvince) {
 var count = 1;
 function updatePlanesSide(projectionProvince) {
 //        $.getJSON( "http://localhost:8080/Plane/planes/3", function(data) {
-    d3.json(baseUrl, function (error, plane) {
+    d3.json(baseUrl, function (error, planes) {
         if (error)
             return console.error(error);
         //console.log(plane);
 
+        // 是否需要过滤
+        var plane;
+        if(doFilter){
+            plane = filter(planes);
+        }else{
+            plane = planes;
+        }
 
         canvasSide.selectAll("defs").remove();
         var arrowMarker = [];
@@ -321,7 +328,7 @@ function updatePlanesSide(projectionProvince) {
                 return projectionProvince([d.lon,d.lat])[0];
             })
             .attr('y2',function(d){
-                console.log(d.icao +":"+ vrateScale(d.vrate));
+                //console.log(d.icao +":"+ vrateScale(d.vrate));
                 return  yScale(d.alt) - vrateScale(d.vrate);
             })
             .attr("stroke","red")
@@ -364,7 +371,7 @@ function startModelSide(projectionProvince) {
     //getNext();
     setInterval(function() {
         if(!isPause) {
-            console.log("点了暂停以后: " + isPause);
+            //console.log("点了暂停以后: " + isPause);
             updatePlanesSide(projectionProvince);
             //getNext();
         }

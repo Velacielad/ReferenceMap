@@ -13,12 +13,12 @@ var baseUrl = "http://121.42.217.4\:8080/Plane/simulation";
 var isPause = false;
 
 function pause(){
-    console.log("pause clicked");
+    //console.log("pause clicked");
     isPause = true;
 }
 
 function continueDisplay(){
-    console.log("pause is canceled");
+    //console.log("pause is canceled");
     isPause = false;
 }
 
@@ -43,10 +43,10 @@ function tooltipHtmlSynchronous(n, d){	/* function to create html content string
         "<tr><td>纬度</td><td>  "+(d.lat)+"</td></tr>"+
         "<tr><td>海拔</td><td>  "+(d.alt)+"</td></tr>"+
         "<tr><td>速度</td><td>  "+(d.speed)+"</td></tr>"+
-        "<tr><td>方向</td><td>  "+(planes[i].trueTrack)+"</td></tr>"+
+        "<tr><td>方向</td><td>  "+(d.trueTrack)+"</td></tr>"+
         "<tr><td>垂直速度</td><td>  "+(d.vrate)+"</td></tr>"+
         "<tr><td>距离</td><td>  "+(d.dist)+"</td></tr>"+
-        "<tr><td>国家</td><td>  "+(planes[i].country)+"</td></tr>"+
+        "<tr><td>国家</td><td>  "+(d.country)+"</td></tr>"+
         "</table>";
 }
 //  定义鼠标移上函数
@@ -59,12 +59,12 @@ function mouseOverSynchronous(dPlane){
 
     // 出现数据的详情
     var planeSelect  = d3.selectAll(".plane_" + dPlane.icao)[0];
-    console.log(planeSelect);
+    //console.log(planeSelect);
     planeSelect.forEach(function(d,i){
         var X = planeSelect[i].getBoundingClientRect().left;
         var Y = planeSelect[i].getBoundingClientRect().top;
         //console.log();
-        console.log((i+1) + ":" + X + "  :  " + Y);
+        //console.log((i+1) + ":" + X + "  :  " + Y);
         d3.select("#tooltip"+(i+1)).transition().duration(200).style("opacity", .9);
 
         d3.select("#tooltip"+(i+1)).html(tooltipHtmlSynchronous(dPlane.flight, dPlane))
@@ -161,6 +161,8 @@ var colorScale3 = d3.scale.linear()
 
 
 /**筛选条件**/
+
+var doFilter = false;
 var condition = {
     countrySelected:"",
     directionSelected:"",   //   0 东西向，1 南北向
@@ -174,6 +176,7 @@ var condition = {
 function filter(planes){
     var results = [];
     for(var i = 0;i < planes.length;i++){
+        console.log("过滤条件为：" + condition);
         if(condition.countrySelected != null && condition.countrySelected != ""){
             if(planes[i].country != condition.countrySelected){
                 continue;
@@ -215,6 +218,8 @@ function filter(planes){
         results.push(planes[i]);
 
     }
+    console.log("过滤前： "+ planes);
+    console.log("过滤后： "+ results);
     return results;
 
 }

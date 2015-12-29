@@ -94,6 +94,9 @@ function showDetailInfo(planeTemp){
 
 }
 
+      function showTime(planeTemp){
+          document.getElementById("recordTime").innerHTML = "时间：" + planeTemp.recordTime;
+      }
 /**
  * 更新飞机数据
  * @type {number}
@@ -101,10 +104,18 @@ function showDetailInfo(planeTemp){
 var count = 1;
 function updatePlanes(projectionProvince,type) {
 //        $.getJSON( "http://localhost:8080/Plane/planes/3", function(data) {
-    d3.json(baseUrl, function (error, plane) {
+    d3.json(baseUrl, function (error, planes) {
         if (error)
             return console.error(error);
 
+        showTime(planes[0]);
+        // 是否需要过滤
+        var plane;
+        if(doFilter){
+            plane = filter(planes);
+        }else{
+            plane = planes;
+        }
 
         if(type == 1) {
             if(MouseClicked){
@@ -357,7 +368,7 @@ function startModel(projectionProvince,type) {
     //getNext();
     setInterval(function() {
         if(!isPause) {
-            console.log("点了暂停以后: " + isPause);
+            //console.log("点了暂停以后: " + isPause);
             updatePlanes(projectionProvince,type);
             //getNext();
         }
