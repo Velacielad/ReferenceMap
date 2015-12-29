@@ -261,10 +261,10 @@
     <div class="topbtn" onclick="isNameShow()" style="margin-top: 20px">显示文字</div>
     <div class="topbtn" onclick="pause()" style=" margin-top: 20px;">暂停</div>
     <div class="topbtn" onclick="continueDisplay()" style=" margin-top: 20px;">继续</div>
-    <div class="topbtn" onclick="ShowDetail()" style=" margin-top: 20px;">查看详情</div>
-    <div style="clear:both;"></div>
-
     <form class="form-horizontal">
+      <div class="submitButton topbtn" id="submitButton" onclick="" style=" margin-top: 20px;">筛选</div>
+      <div class="cancelButton topbtn" id = "cancelButton" onclick="" style=" margin-top: 20px;">取消筛选</div>
+      <div style="padding-top:5px;">
         <select id="countriesSelected"  required>
             <option value="Chin">Chin</option>
             <option value="SKor">SKor</option>
@@ -291,13 +291,15 @@
             <option value="0">东西向</option>
             <option value="1">南北向</option>
         </select>
-        <input id="alt_min"> < 高度 < <input id="alt_max">
-        <br>
-        <input id="dis_min"> < 距离 < <input id="dis_max">
-        <div class="submitButton" id="submitButton" onclick="" style=" margin-top: 20px;">筛选</div>
-        <div class="cancelButton" id = "cancelButton" onclick="" style=" margin-top: 20px;">取消筛选</div>
+        <input id="alt_min" placeholder="最低高度" style="color:#aaa"> < 高度 < <input id="alt_max" placeholder="最高高度" style="color:#aaa">
+        <div style="margin-top:5px;">
+          <input id="dis_min" placeholder="最近距离" style="color:#aaa"> < 距离 < <input id="dis_max" placeholder="最远距离" style="color:#aaa">
+        </div>
+      </div>
 
     </form>
+    <div style="clear:both;"></div>
+
   </div>
 </div>
 <div class="container-fluid">
