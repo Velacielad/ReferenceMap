@@ -46,6 +46,17 @@ h2 span{
   text-align: center;
 }
 #speed{
-  float: left;
   font-size: 18px;
+}
+#id{
+  margin-left: 10px;
+  color: #fff;
+  font-size: 14px;
+}
+.detail-title{
+  font-size: 15px;
+  font-weight: bold;
+  font-family: "微软雅黑";
+  color:#777;
+  margin-top: 5px;
 }
