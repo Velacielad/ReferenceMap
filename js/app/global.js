@@ -43,10 +43,10 @@ function tooltipHtmlSynchronous(n, d){	/* function to create html content string
         "<tr><td>纬度</td><td>  "+(d.lat)+"</td></tr>"+
         "<tr><td>海拔</td><td>  "+(d.alt)+"</td></tr>"+
         "<tr><td>速度</td><td>  "+(d.speed)+"</td></tr>"+
-        "<tr><td>方向</td><td>  "+(d.trueTrack)+"</td></tr>"+
+        "<tr><td>方向</td><td>  "+(planes[i].trueTrack)+"</td></tr>"+
         "<tr><td>垂直速度</td><td>  "+(d.vrate)+"</td></tr>"+
         "<tr><td>距离</td><td>  "+(d.dist)+"</td></tr>"+
-        "<tr><td>国家</td><td>  "+(d.country)+"</td></tr>"+
+        "<tr><td>国家</td><td>  "+(planes[i].country)+"</td></tr>"+
         "</table>";
 }
 //  定义鼠标移上函数
@@ -161,32 +161,60 @@ var colorScale3 = d3.scale.linear()
 
 
 /**筛选条件**/
-var condition;
+var condition = {
+    countrySelected:"",
+    directionSelected:"",   //   0 东西向，1 南北向
+    dis_min:"",
+    dis_max:"",
+    alt_min:"",
+    alt_max:""
+};
 
 
-function filter(plane){
-    plane.forEach(function (d){
+function filter(planes){
+    var results = [];
+    for(var i = 0;i < planes.length;i++){
         if(condition.countrySelected != null && condition.countrySelected != ""){
-              if(d.country != condition.countrySelected){
-                  
-              }
+            if(planes[i].country != condition.countrySelected){
+                continue;
+            }
         }
         if(condition.directionSelected != null && condition.directionSelected != ""){
-
+            if(condition.countrySelected == 0){ //   0 东西向
+                if(planes[i].trueTrack >= 135 && planes[i].trueTrack <= 225 || planes[i].trueTrack >= 315 && planes[i].trueTrack <= 360 || planes[i].trueTrack >= 0 && planes[i].trueTrack <= 45){
+                    // 南北向：直接跳过
+                    continue;
+                }
+            }else if(condition.countrySelected == 1){ // 1 南北向
+                if(planes[i].trueTrack >= 45 && planes[i].trueTrack <= 135 || planes[i].trueTrack >= 225 && planes[i].trueTrack <= 315){
+                    // 东西向：直接跳过
+                    continue;
+                }
+            }
         }
         if(condition.dis_min != null && condition.dis_min != ""){
-
+            if(planes[i].dist < condition.dis_min){
+                continue;
+            }
         }
         if(condition.dis_max != null && condition.dis_max != ""){
-
+            if(planes[i].dist > condition.dis_max){
+                continue;
+            }
         }
         if(condition.alt_min != null && condition.alt_min != ""){
-
+            if(planes[i].alt < condition.alt_min){
+                continue;
+            }
         }
         if(condition.alt_max != null && condition.alt_max != ""){
-
+            if(planes[i].alt > condition.alt_max){
+                continue;
+            }
         }
-    })
+        results.push(planes[i]);
 
+    }
+    return results;
 
 }
