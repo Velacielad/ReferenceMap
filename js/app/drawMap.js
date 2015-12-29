@@ -190,6 +190,7 @@ function drawPrivenceMap( mapPath, svg,canCountriesClick,type) {
             startModel(projectionProvince);
             if(type==1){
                 startModelSide(projectionProvince);
+                startModelLeft(projectionProvince);
             }
         }else{
             destroy();

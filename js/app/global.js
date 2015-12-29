@@ -76,7 +76,6 @@ function mouseOverSynchronous(dPlane){
 }
 //  定义鼠标移出函数
 function mouseOutSynchronous(dPlane){
-
     // 恢复模拟过程
     continueDisplay();
     // 隐藏选中的圆
@@ -84,6 +83,12 @@ function mouseOutSynchronous(dPlane){
     // 隐藏数据的详情
     d3.select("#tooltip1").transition().duration(500).style("opacity", 0).attr("fill","#ffffff");
     d3.select("#tooltip2").transition().duration(500).style("opacity", 0).attr("fill","#ffffff");
+    d3.select("#tooltip3").transition().duration(500).style("opacity", 0).attr("fill","#ffffff");
+
+}
+
+
+function mouseClickSynchronous(dPlane){
 
 }
 

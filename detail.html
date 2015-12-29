@@ -60,6 +60,26 @@
             margin-bottom: 20px;
         }
 
+        #map5 {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: center;
+            max-width: 600px;
+            /*height: auto;*/
+            /*width: auto;*/
+            min-width: 600px;
+            /*margin: 3px;*/
+            background-color: #FFE4C4;
+            /*background-color: #ffffff;*/
+            -webkit-border-radius: 10px;
+            -moz-border-radius: 10px;
+            border-radius: 10px;
+            /*margin: 10px 10px 10px 10px;*/
+            margin-bottom: 20px;
+        }
+
+
         .main{
             margin-top: 130px;
         }
@@ -148,6 +168,46 @@
         }
 
 
+        #tooltip3 {
+            position: absolute;
+            text-align: center;
+            padding: 20px;
+            margin: 10px;
+            font: 12px sans-serif;
+            background: lightsteelblue;
+            border: 1px;
+            border-radius: 2px;
+            pointer-events: none;
+        }
+        #tooltip3 h4{
+            margin:0;
+            font-size:14px;
+        }
+        #tooltip3{
+            background:rgba(0,0,0,0.9);
+            border:1px solid grey;
+            border-radius:5px;
+            font-size:12px;
+            width:auto;
+            padding:4px;
+            color:white;
+            opacity:0;
+        }
+        #tooltip3 table{
+            table-layout:fixed;
+        }
+        #tooltip3 tr td{
+            padding:0;
+            margin:0;
+        }
+        #tooltip3 tr td:nth-child(1){
+            width:50px;
+        }
+        #tooltip3 tr td:nth-child(2){
+            text-align:center;
+        }
+
+
         .axis path,
         .axis line{
             fill: none;
@@ -191,13 +251,24 @@
             <div id="map3" >
 
             </div>
+            <h4 class="col-md-offset-4">俯视图</h4>
         </div>
 
         <div  class="col-sm-12 col-lg-6">
             <div id="map4" >
 
             </div>
+            <h4 class="col-md-offset-4">西  <——>   东                     主视图</h4>
         </div>
+
+        <div  class="col-sm-12 col-lg-6">
+            <div id="map5" >
+
+            </div>
+            <h4 class="col-md-offset-4">北  <——>   南                     侧视图</h4>
+
+        </div>
+
         <div style="left: 886px; top: 28px; opacity: 0;" id="tooltip1">
         <h4>Maine</h4>
         <table>
@@ -219,7 +290,20 @@
             </table>
         </div><!-- div to hold tooltip2. -->
     </div>
+
+
+    <div style="left: 886px; top: 28px; opacity: 0;" id="tooltip3">
+        <h4>Maine</h4>
+        <table>
+            <tbody>
+            <tr><td>Low</td><td>56</td></tr>
+            <tr><td>Average</td><td>76</td></tr>
+            <tr><td>High</td><td>95</td></tr>
+            </tbody>
+        </table>
+    </div><!-- div to hold tooltip2. -->
 </div>
+
 
 
 
@@ -270,6 +354,25 @@
                 "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
     }
 
+    var zoomSide = d3.behavior.zoom()
+            .scaleExtent([1, 10])
+            .on("zoom", zoomedSide);
+
+    function zoomedSide() {
+        d3.select(this).attr("transform",
+                "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+    }
+
+
+    var zoomLeft = d3.behavior.zoom()
+            .scaleExtent([1, 10])
+            .on("zoom", zoomedLeft);
+
+    function zoomedLeft() {
+        d3.select(this).attr("transform",
+                "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+    }
+
     /**
      * 拖拽函数
      * @type {string}
@@ -296,10 +399,17 @@
             .attr("width", sideWidth)
             .attr("height", sideHeight)
             .append("g")
-//            .call(zoom)
+            .call(zoomSide)
 //            .call(drag)
             .attr("transform", "translate(0,0)");
 
+    var svgLeft = d3.select("#map5").append("svg")
+            .attr("width", sideWidth)
+            .attr("height", sideHeight)
+            .append("g")
+            .call(zoomLeft)
+//            .call(drag)
+            .attr("transform", "translate(0,0)");
 
 //
 //    var nodes = [];
@@ -317,6 +427,7 @@
 
 <script src="js/app/d3.right.plane.js"></script>
 <script src="js/app/sideView.js"></script>
+<script src="js/app/leftView.js"></script>
 <script src="js/app/drawMap.js"></script>
 <script src="js/app/util.js"></script>
 
