@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <title>Map</title>
     <link rel="stylesheet" href="css/vendor/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/index.css" />
     <!--<link rel="stylesheet" href="mapjs/css/normalize.min.css" />-->
     <!--<link rel="stylesheet" href="mapjs/css/ion.rangeSlider.css" />-->
     <!--<link rel="stylesheet" href="mapjs/css/ion.rangeSlider.skinFlat.css" id="styleSrc"/>-->
@@ -30,7 +31,7 @@
             min-width: 600px;
 
             /*margin: 3px;*/
-            background-color: #FFE4C4;
+            background-color: #181818;
             /*background-color: #ffffff;*/
             -webkit-border-radius: 10px;
             -moz-border-radius: 10px;
@@ -51,7 +52,7 @@
             /*width: auto;*/
             min-width: 600px;
             /*margin: 3px;*/
-            background-color: #FFE4C4;
+            background-color: #DADADA;
             /*background-color: #ffffff;*/
             -webkit-border-radius: 10px;
             -moz-border-radius: 10px;
@@ -70,27 +71,28 @@
 
         #tooltip1 {
             position: absolute;
-            text-align: center;
-            padding: 20px;
+            text-align: left;
+            padding: 5px;
             margin: 10px;
-            font: 12px sans-serif;
-            background: lightsteelblue;
+            font: 10px "微软雅黑";
+            background: #fff;
             border: 1px;
-            border-radius: 2px;
+            border-radius: 1px;
             pointer-events: none;
         }
         #tooltip1 h4{
-            margin:0;
-            font-size:14px;
+            margin:5px;
+            font-size:15px;
+            font-weight: bold;
+            color:#333;
         }
         #tooltip1{
-            background:rgba(0,0,0,0.9);
-            border:1px solid grey;
+            background:rgba(f,f,f,0.9);
+            border:1px solid #777;
             border-radius:5px;
-            font-size:12px;
+            font-size:10px;
             width:auto;
-            padding:4px;
-            color:white;
+            color:#777;
             opacity:0;
         }
         #tooltip1 table{
@@ -101,36 +103,35 @@
             margin:0;
         }
         #tooltip1 tr td:nth-child(1){
-            width:50px;
+            width:70px;
         }
         #tooltip1 tr td:nth-child(2){
-            text-align:center;
+            text-align:left;
         }
-
-
         #tooltip2 {
             position: absolute;
-            text-align: center;
-            padding: 20px;
+            text-align: left;
+            padding: 5px;
             margin: 10px;
-            font: 12px sans-serif;
-            background: lightsteelblue;
+            font: 10px "微软雅黑";
+            background: #fff;
             border: 1px;
-            border-radius: 2px;
+            border-radius: 1px;
             pointer-events: none;
         }
         #tooltip2 h4{
-            margin:0;
-            font-size:14px;
+            margin:5px;
+            font-size:15px;
+            font-weight: bold;
+            color:#333;
         }
         #tooltip2{
-            background:rgba(0,0,0,0.9);
-            border:1px solid grey;
+            background:rgba(f,f,f,0.9);
+            border:1px solid #777;
             border-radius:5px;
-            font-size:12px;
+            font-size:10px;
             width:auto;
-            padding:4px;
-            color:white;
+            color:#777;
             opacity:0;
         }
         #tooltip2 table{
@@ -141,10 +142,35 @@
             margin:0;
         }
         #tooltip2 tr td:nth-child(1){
-            width:50px;
+            width:70px;
         }
         #tooltip2 tr td:nth-child(2){
-            text-align:center;
+            text-align:left;
+        }
+        .container-fluid{
+          margin-top: 75px;
+          overflow: hidden;
+        }
+        .btn-info {
+            color: #fff;
+            background-color: #21211F;
+            border-color: #35352F;
+            font-family: "微软雅黑";
+        }
+        .topbtn{
+          height: 50px;
+          float: left;
+          margin: 10px 10px 0px 10px;
+          padding: 5px;
+          font-size: 18px;
+          font-family: "微软雅黑";
+          text-align: center;
+          cursor: pointer;
+          color: #777;
+        }
+        .topbtn:hover{
+          border-bottom:solid 5px #777;
+          color: #333;
         }
 
 
@@ -179,13 +205,17 @@
 <!--<p><strong>第三产业：</strong><span id="industry3">100</span></p>-->
 <!--</div>-->
 
+<div class="topnav">
+  <div class="container">
+    <div class="topbtn" onclick="isNameShow()" style="margin-top: 20px">显示文字</div>
+    <div class="topbtn" onclick="pause()" style=" margin-top: 20px;">暂停</div>
+    <div class="topbtn" onclick="continueDisplay()" style=" margin-top: 20px;">继续</div>
+    <div class="topbtn" onclick="ShowDetail()" style=" margin-top: 20px;">查看详情</div>
+    <div style="clear:both;"></div>
+  </div>
+</div>
 <div class="container-fluid">
-
-    <button class="btn btn-info col-md-offset-1" onclick="isNameShow()" style="margin-top: 20px">显示文字</button>
-    <button class="btn btn-info col-md-offset-2" onclick="pause()" style=" margin-top: 20px;">暂停</button>
-    <button class="btn btn-info" onclick="continueDisplay()" style=" margin-top: 20px;">继续</button>
-
-    <div class="row  main" style="margin-top: 20px">
+    <div class="row  main" style="margin-top: 20px;background-color:#181818;">
 
         <div id="left" class="col-sm-12 col-lg-6" >
             <div id="map3" >
@@ -223,8 +253,21 @@
 
 
 
-<div id="rangeSlider" style="padding-left:55px; margin-top:-120px; width:250px; font-size:12px;">
-    <input type="text" id="range_1" placeholder="yes"/>
+<div class="container">
+  <div class="filter">
+    <div class="filter-title">
+      <h2>CQH8585Y <span>ID:780AD9</span></h2>
+      <div class="filter-detail">
+        <div id="speed"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="footer">
+  <div class="container" style="padding-top:10px;font-family:'微软雅黑'">
+    <b>vis_2015@Team-Room333</b><br>
+    2015.12.29
+  </div>
 </div>
 
 <script src="js/app/global.js"></script>
@@ -255,8 +298,8 @@
     var sideWidth = 600;
     var sideHeight = 600;
 
-    var background = "#D1EEEE";
-    var overColor = "#F08080";
+    var background = "#EBEBEB";
+    var overColor = "#5A5A5A";
 
     /**
      *  放大缩小函数
@@ -307,7 +350,7 @@
     //    var coutiesNodes = [];
         var provinceId = "";
     //    var coutiesId = "";
-        var textColor= "#ff0000";
+        var textColor= "#6B695D";
     //var provinceMax=provinceDataYear.max;
     //	var provinceMin=provinceDataYear.min;
     //drawRangeFinal(1000, 1);
@@ -337,4 +380,4 @@
 
 </script>
 </body>
-</html>  
+</html>
