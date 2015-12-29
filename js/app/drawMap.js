@@ -183,7 +183,6 @@ function drawPrivenceMap( mapPath, svg,canCountriesClick,type) {
             });
 
 
-
         //给市加上名字
         drawCityName(type);
         if(!canCountriesClick){

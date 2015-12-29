@@ -308,7 +308,7 @@ function updatePlanesSide(projectionProvince) {
             .enter()
             .append('line')
             .attr('class',function(d){
-                return "plane_" + d.icao + "  PlaneLine";
+                return "plane_" + d.icao + "  PlaneLine PlaneMark";
             })
             .attr('x1',function(d){
                 return projectionProvince([d.lon,d.lat])[0];
