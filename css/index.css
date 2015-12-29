@@ -9,6 +9,10 @@ h2{
 h2 span{
   font-size: 15px;
 }
+input{
+  outline:medium;
+  padding: 10px;
+}
 .topnav{
   background-color: #FFFFFF;
     height: 70px;
@@ -60,3 +64,10 @@ h2 span{
   color:#777;
   margin-top: 5px;
 }
+.form-horizontal{
+  font-family: "微软雅黑";
+}
+.form-horizontal input{
+  height: 25px;
+  border-radius: 2px;
+  border: solid 1px #ddd;
