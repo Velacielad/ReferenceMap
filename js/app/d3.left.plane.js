@@ -67,7 +67,7 @@ function updatePlanesChina(projection) {
 
         var sped = document.getElementById("speed");
         sped.innerHTML =
-        "<div style='float:left;'>速度:</div><div style='float:left;margin-left:5px;padding-left:5px;width:"+plane[0].speed/5+"px;color:#fff;background-color:#"+plane[0].speed+"'>"+plane[0].speed+"</div><div>位置:</div><div style='float:left;'>"+plane[0].lat+" , "+plane[0].lon+"</div>";
+        "<div>速度:</div><div style='margin:5px;padding:5px;width:"+plane[0].speed/5+"px;color:#fff;background-color:#"+plane[0].speed+"'>"+plane[0].speed+"</div><div>位置:</div><div style='float:left;'>"+plane[0].lat+" , "+plane[0].lon+"</div>";
 
         svg.selectAll("defs").remove();
         var arrowMarker = [];

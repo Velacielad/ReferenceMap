@@ -35,13 +35,15 @@ h2 span{
     background-color: #fff;
     width: 100%;
     padding: 10px;
-    height: 100px;
+    height: 500px;
   }
 
 .footer{
   margin-top: 100px;
   height: 100px;
   background-color: #282C34;
+  color:#888;
+  text-align: center;
 }
 #speed{
   float: left;
