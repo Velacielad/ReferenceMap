@@ -9,7 +9,7 @@ var canvasSide;
  */
 var yScale = d3.scale.linear()
     .domain([0,41200])  // 41125 所获取数据中最大的一个
-    .range([maxHeight,0]);
+    .range([maxHeight,20]);
 
 var vrateScale = d3.scale.linear()
     .domain([0,5120])  // 3264 所获取数据中最大的一个
@@ -19,20 +19,33 @@ function initSide(){
     canvasSide = svgSide.append("svg:g")
         .attr("class", "airplaneInTianjinSide");
 
-
-    //绘制坐标轴的直线
-    canvasSide.append("line")
-        .attr("stroke","gray")
-        .attr("stroke-width","2px")
-        .attr("x1",0)
-        .attr("y1",maxHeight)
-        .attr("x2",width)
-        .attr("y2",maxHeight);
-
     //定义y轴
     var yAxis = d3.svg.axis()
         .scale(yScale)
         .orient("right");
+
+
+
+    //绘制坐标轴的直线
+    for(var i = 0;i < 9;i++){
+        if(i == 0) {
+            canvasSide.append("line")
+                .attr("stroke", "black")
+                .attr("stroke-width", "2px")
+                .attr("x1", 0)
+                .attr("y1", yScale(5000 * i))
+                .attr("x2", width)
+                .attr("y2", yScale(5000 * i));
+        }else{
+            canvasSide.append("line")
+                .attr("stroke", "white")
+                .attr("stroke-width", "2px")
+                .attr("x1", 0)
+                .attr("y1", yScale(5000 * i))
+                .attr("x2", width)
+                .attr("y2", yScale(5000 * i));
+        }
+    }
 
     //添加y轴
     canvasSide.append("g")
@@ -40,19 +53,61 @@ function initSide(){
         .attr("transform","translate(" + 0.2 + "," + 0.2 + ")")
         .call(yAxis);
 
-    //绘制坐标轴的直线
-    canvasSide.append("line")
-        .attr("stroke","gray")
-        .attr("stroke-width","2px")
-        .attr("x1",0)
-        .attr("y1",yScale(5000))
-        .attr("x2",width)
-        .attr("y2",yScale(5000));
+
+    canvasSide.append("text").attr("class","axisExplain")
+        .attr("dx",40).attr("dy",20).attr("text-anchor","middle")
+        .attr("fill",textColor).attr("font-size","3px").attr("font-family","微软雅黑")
+        //.attr("display","none")
+        .text("高度/英尺");
 }
 
 
+function drawAirplaneSide(projectionProvince) {
+    /**
+     * 标记地图上的飞机场
+     */
+    d3.json("json/airport.json", function (error, airport) {
 
+        // 自定义 pophover
+        function tooltipHtmlAirport(d){	/* function to create html content string in tooltip div. */
+            return "<h4>"+ d.name+"</h4><table>"+
+                "<tr><td>位置</td><td>"+(d.address)+"</td></tr>"+
+                "</table>";
+        }
 
+        //  定义鼠标移上函数
+        function mouseOver3(d){
+            d3.select("#tooltip1").transition().duration(200).style("opacity", .9);
+
+            d3.select("#tooltip1").html(tooltipHtmlAirport(d))
+                .style("left", (d3.event.pageX) + "px")
+                .style("top", (d3.event.pageY - 28) + "px");
+        }
+        //  定义鼠标移出函数
+        function mouseOut3(){
+            d3.select("#tooltip1").transition().duration(500).style("opacity", 0).attr("fill","#ffffff");
+        }
+        canvasSide.append("svg:g")
+            .attr("class", "airports")
+            .selectAll("image")
+            .data(airport)
+            .enter()
+            .append('image')
+            .attr("x", function (d) {
+                console.log("airport:" + d);
+                return projectionProvince([d.lon, d.lat])[0]-6;
+            })
+            .attr("y", function (d) {
+
+                //return 200;
+                return yScale(maxHeight-2);
+            })
+            .attr("width", 12)
+            .attr("height", 12)
+            .attr("xlink:href","img/airport.png")
+            .on("mouseover", mouseOver3).on("mouseout", mouseOut3);
+    });
+}
 
 /**
 * 更新飞机数据
@@ -245,7 +300,7 @@ function updatePlanesSide(projectionProvince) {
 
 
 
-        canvasSide.selectAll("line").remove();
+        canvasSide.selectAll(".PlaneLine").remove();
         canvasSide.append("svg:g")
             .attr("class", "planes")
             .selectAll("line")
@@ -253,7 +308,7 @@ function updatePlanesSide(projectionProvince) {
             .enter()
             .append('line')
             .attr('class',function(d){
-                return "plane_" + d.icao;
+                return "plane_" + d.icao + "  PlaneLine";
             })
             .attr('x1',function(d){
                 return projectionProvince([d.lon,d.lat])[0];
@@ -292,6 +347,7 @@ function updatePlanesSide(projectionProvince) {
 
 function startModelSide(projectionProvince) {
     initSide();
+    drawAirplaneSide(projectionProvince);
     count = count + 1;
     updatePlanesSide(projectionProvince);
     //getNext();
