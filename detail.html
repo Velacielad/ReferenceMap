@@ -241,6 +241,8 @@
         }
 
     </style>
+
+
 </head>
 
 <body>
@@ -261,6 +263,41 @@
     <div class="topbtn" onclick="continueDisplay()" style=" margin-top: 20px;">继续</div>
     <div class="topbtn" onclick="ShowDetail()" style=" margin-top: 20px;">查看详情</div>
     <div style="clear:both;"></div>
+
+    <form class="form-horizontal">
+        <select id="countriesSelected"  required>
+            <option value="Chin">Chin</option>
+            <option value="SKor">SKor</option>
+            <option value="Taiw">Taiw</option>
+            <option value="Luxe">Luxe</option>
+            <option value="USA">USA</option>
+            <option value="Sing">Sing</option>
+            <option value="Arab">Arab</option>
+            <option value="Turk">Turk</option>
+            <option value="U.K.">U.K.</option>
+            <option value="Quat">Quat</option>
+            <option value="Mala">Mala</option>
+            <option value="Neth">Neth</option>
+            <option value="Germ">Germ</option>
+            <option value="Thai">Thai</option>
+            <option value="Indo">Indo</option>
+            <option value="Finl">Finl</option>
+            <option value="Irel">Irel</option>
+            <option value="Iran">Iran</option>
+            <option value="Ukra">Ukra</option>
+            <option value="Mong">Mong</option>
+        </select>
+        <select id = "directionSelected">
+            <option value="0">东西向</option>
+            <option value="1">南北向</option>
+        </select>
+        <input id="alt_min"> < 高度 < <input id="alt_max">
+        <br>
+        <input id="dis_min"> < 距离 < <input id="dis_max">
+        <div class="submitButton" id="submitButton" onclick="" style=" margin-top: 20px;">筛选</div>
+        <div class="cancelButton" id = "cancelButton" onclick="" style=" margin-top: 20px;">取消筛选</div>
+
+    </form>
   </div>
 </div>
 <div class="container-fluid">
@@ -331,15 +368,19 @@
       <h2 id="flight">CQH8585Y</h2> <span id="id">ID:780AD9</span>
       <div class="filter-detail">
         <div id="detail">
-          <div class="detail-title">速度:</div>
+          <div class="detail-title">速度:(海里/小时)</div>
           <div id="speed" style="width:150px;border:solid 1px #BBB;"></div>
           <div id="fangxiang"></div>
-          <div class="detail-title">坐标:</div>
+          <div class="detail-title">坐标:(经纬度)</div>
           <div id="zuobiao"></div>
           <div class="detail-title">高度:</div>
           <div id="flight-height" style="width:150px;border:solid 1px #BBB;"></div>
           <div class="detail-title">垂直速度:</div>
           <div id="v-speed" style="width:150px;border:solid 1px #BBB;"></div>
+          <div class="detail-title">距离:</div>
+          <div id="juli" style="width:150px;border:solid 1px #BBB;"></div>
+          <div class="detail-title">国家:</div>
+          <div id="guojia" style="width:150px;border:solid 1px #BBB;"></div>
         </div>
         <div style="clear:both;"></div>
       </div>
@@ -486,7 +527,58 @@
 //        drawCityName(1);
     });
 
+    $(function(){
+        $("#submitButton").click(function(){
+            // 获取国家
+            var countrySelected = $("#countriesSelected").val();
+            // 获取方向
+            var directionSelected = $("#directionSelected").val();
+            // 获取高度范围
+            var alt_min = $("#alt_min").val();
+            var alt_max = $("#alt_max").val();
 
+            // 获取距离范围
+            var dis_min = $("#dis_min").val();
+            var dis_max = $("#dis_max").val();
+
+            condition.countrySelected = countrySelected;
+            condition.directionSelected = directionSelected;
+            condition.alt_min = alt_min;
+            condition.alt_max=alt_max;
+            condition.dis_min = dis_min;
+            condition.dis_max = dis_max;
+
+//            $.ajax({
+//                url:"",
+//                dataType:"html",
+//                data:{
+//                    country:countrySelected,
+//                    direction:directionSelected,
+//                    alt_min:alt_min,
+//                    alt_max:alt_max,
+//                    dis_min:dis_min,
+//                    dis_max:dis_max
+//                },
+//                success: function (strValue) {
+//                    if(strValue == "false"){
+//                        alert("请求出错");
+//                    }
+//                }
+//            })
+        });
+
+        $("#cancelButton").click(function(){
+            $.ajax({
+                url:"",
+                dataType:"html",
+                success: function (strValue) {
+                    if(strValue == "false"){
+                        alert("请求出错");
+                    }
+                }
+            })
+        })
+    })
 
 </script>
 </body>

@@ -64,11 +64,13 @@ function showDetailInfo(planeTemp){
     var flight_id = document.getElementById("id");
     var flight_height = document.getElementById("flight-height");
     var v_speed = document.getElementById("v-speed");
+    var juli = document.getElementById("juli");
+    var guojia = document.getElementById("guojia");
 
 
     flight_number.innerHTML = "航班号: " + planeTemp.flight;
     flight_id.innerHTML = "id: "+planeTemp.icao;
-    fangxiang.innerHTML = "方向：" + planeTemp.trueTrack + "度";
+    fangxiang.innerHTML = "方向(0 ~ 360度)： " + planeTemp.trueTrack + "度";
     sped.innerHTML =
         "<div style='margin:5px;padding:5px;width:"+speedScale(planeTemp.speed)+"px;color:#fff;background-color:"+compute(colorScale(planeTemp.speed))+"'>"+planeTemp.speed+"</div>";
 
@@ -80,12 +82,15 @@ function showDetailInfo(planeTemp){
     if(planeTemp.vrate > 0){
         v_speed.innerHTML =
             "<div style='margin:5px;padding:5px;width:"+vrateScale(planeTemp.vrate)+"px;color:#333;background-color:"+compute3(colorScale3(planeTemp.vrate))+"'> +"+planeTemp.vrate+"</div>";
-    }
-    else {
+    }else {
         var temp = -planeTemp.vrate;
         v_speed.innerHTML =
             "<div style='margin:5px;padding:5px;width:"+vrateScale(temp)+"px;color:#333;background-color:"+compute3(colorScale3(temp))+"'> -"+temp+"</div>";
     }
+
+    juli.innerHTML =planeTemp.dist + " 海里";
+    guojia.innerHTML =planeTemp.country;
+
 
 }
 

@@ -153,3 +153,40 @@ var colorScale2 = d3.scale.linear()
 var colorScale3 = d3.scale.linear()
     .domain([0,5120])
     .range([0,1]);
+
+
+
+
+
+
+
+/**筛选条件**/
+var condition;
+
+
+function filter(plane){
+    plane.forEach(function (d){
+        if(condition.countrySelected != null && condition.countrySelected != ""){
+              if(d.country != condition.countrySelected){
+                  
+              }
+        }
+        if(condition.directionSelected != null && condition.directionSelected != ""){
+
+        }
+        if(condition.dis_min != null && condition.dis_min != ""){
+
+        }
+        if(condition.dis_max != null && condition.dis_max != ""){
+
+        }
+        if(condition.alt_min != null && condition.alt_min != ""){
+
+        }
+        if(condition.alt_max != null && condition.alt_max != ""){
+
+        }
+    })
+
+
+}
